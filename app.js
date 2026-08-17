@@ -91,6 +91,11 @@ onAuthStateChanged(auth, async (user) => {
 
 function renderAuthUI() {
   const slot = document.getElementById('authSlot');
+  const isSeeker = currentUser && currentUserRole === 'seeker';
+  ['postListingNavBtn', 'postListingCtaBtn', 'listYourPlaceLink'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.style.display = isSeeker ? 'none' : '';
+  });
   if (currentUser) {
     slot.innerHTML = `
       <span id="notifBell" style="position:relative; cursor:pointer;" onclick="window.toggleNotifications()">
@@ -1024,13 +1029,11 @@ window.openPostModal = async () => {
   if (!requireAuth()) return;
 
   if (currentUserRole !== 'owner') {
-    const wantsToSwitch = confirm(
-      "Your account is registered as a room seeker, not a house owner.\n\n" +
-      "Posting listings is for house owners only. Would you like to switch this account to a house owner account so you can list a place?"
+    alert(
+      "Posting is only available for house owner accounts.\n\n" +
+      "Your account is registered as a room seeker. If you have a place to list, please create a separate house owner account, or contact Sakan Customer Care."
     );
-    if (!wantsToSwitch) return;
-    await updateDoc(doc(db, 'users', currentUser.uid), { role: 'owner' });
-    currentUserRole = 'owner';
+    return;
   }
 
   editingListingId = null;
