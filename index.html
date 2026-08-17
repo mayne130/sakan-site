@@ -294,7 +294,7 @@
     <div class="nav-links">
       <a href="#browse">Browse Rooms</a>
       <a href="#how">How it works</a>
-      <a href="#owners">List your place</a>
+      <a href="#owners" id="listYourPlaceLink">List your place</a>
       <a href="#" onclick="window.openSafetyGuide(); return false;">Safety Guide</a>
       <a href="#" onclick="window.openMoveInChecklist(); return false;">Move-in Checklist</a>
       <a href="#" onclick="window.openPrivacyPolicy(); return false;">Privacy</a>
@@ -302,7 +302,7 @@
     </div>
     <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; row-gap:8px; max-width:520px;" id="authSlot-wrap">
       <span id="authSlot" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; row-gap:8px;"><button class="btn btn-ghost" onclick="window.openAuthModal()">Sign in</button></span>
-      <button class="btn btn-primary" onclick="window.openPostModal()">+ Post a listing</button>
+      <button class="btn btn-primary" id="postListingNavBtn" onclick="window.openPostModal()">+ Post a listing</button>
     </div>
   </div>
 </nav>
@@ -405,7 +405,7 @@
           <div class="tier"><div class="t-name">Each listing after</div><div class="t-price">2 KD</div><div class="t-desc">Pay via WAMD/Pay Link, then approved</div></div>
         </div>
       </div>
-      <button class="btn btn-primary" style="position:relative; z-index:2; white-space:nowrap;" onclick="openPostModal()">Post a listing →</button>
+      <button class="btn btn-primary" id="postListingCtaBtn" style="position:relative; z-index:2; white-space:nowrap;" onclick="window.openPostModal()">Post a listing →</button>
     </div>
   </div>
 </section>
