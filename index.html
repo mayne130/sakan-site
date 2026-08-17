@@ -679,6 +679,29 @@
   </div>
 </div>
 
+<!-- NOTIFICATIONS MODAL -->
+<div class="modal-overlay" id="notifModal">
+  <div class="modal" style="max-width:400px; max-height:75vh;">
+    <div class="modal-close" onclick="window.closeModal('notifModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:14px;">Notifications</h2>
+      <div id="notifPanel"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN QUEUE MODAL -->
+<div class="modal-overlay" id="adminQueueModal">
+  <div class="modal" style="max-width:440px; max-height:80vh;">
+    <div class="modal-close" onclick="window.closeModal('adminQueueModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:14px;">Admin</h2>
+      <div id="adminStatsBar" style="padding:12px 14px; border-radius:10px; background:var(--sand); font-size:13px; font-weight:700; color:var(--teal-deep); margin-bottom:16px;">Loading stats…</div>
+      <div id="adminQueueList"></div>
+    </div>
+  </div>
+</div>
+
 <!-- MANAGE ACCOUNTS MODAL (admin only) -->
 <div class="modal-overlay" id="manageAccountsModal">
   <div class="modal" style="max-width:520px;">
