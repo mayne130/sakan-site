@@ -1089,19 +1089,12 @@ function renderNotificationPanel(items) {
 }
 
 window.toggleNotifications = () => {
-  let panel = document.getElementById('notifPanel');
-  if (!panel) {
-    panel = document.createElement('div');
-    panel.id = 'notifPanel';
-    panel.style.cssText = 'position:fixed; top:70px; right:16px; width:300px; max-width:calc(100vw - 32px); max-height:70vh; overflow-y:auto; background:var(--white); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); z-index:200;';
-    document.body.appendChild(panel);
-  }
-  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+  document.getElementById('notifModal').classList.toggle('open');
 };
 
 window.openNotification = async (notifId, chatId) => {
   await updateDoc(doc(db, 'notifications', notifId), { read: true });
-  document.getElementById('notifPanel').style.display = 'none';
+  document.getElementById('notifModal').classList.remove('open');
   const chatSnap = await getDoc(doc(db, 'chats', chatId));
   if (!chatSnap.exists()) return;
   const chat = chatSnap.data();
@@ -1238,19 +1231,9 @@ window.openPrivacyPolicy = () => document.getElementById('privacyModal').classLi
 window.openContactUs = () => document.getElementById('contactUsModal').classList.add('open');
 
 window.toggleAdminPanel = () => {
-  let panel = document.getElementById('adminPanel');
-  if (!panel) {
-    panel = document.createElement('div');
-    panel.id = 'adminPanel';
-    panel.style.cssText = 'position:fixed; top:70px; right:16px; width:340px; max-width:calc(100vw - 32px); max-height:70vh; overflow-y:auto; background:var(--white); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); z-index:200;';
-    panel.innerHTML = `
-      <div id="adminStatsBar" style="padding:12px 16px; border-bottom:2px solid var(--line); background:var(--sand); font-size:13px; font-weight:700; color:var(--teal-deep); position:sticky; top:0;">Loading stats…</div>
-      <div id="adminQueueList"></div>
-    `;
-    document.body.appendChild(panel);
-  }
-  const opening = panel.style.display !== 'block';
-  panel.style.display = opening ? 'block' : 'none';
+  const modal = document.getElementById('adminQueueModal');
+  const opening = !modal.classList.contains('open');
+  modal.classList.toggle('open');
   if (opening) refreshAdminStats();
 };
 
