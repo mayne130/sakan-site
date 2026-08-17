@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakan — Find Your Room in Kuwait</title>
+<meta name="description" content="Find a room, partition, or flat in Kuwait without the guesswork. Every owner on Sakan is Civil ID-verified before their listing goes live — built for Kuwait's expat community.">
+<link rel="icon" type="image/svg+xml" href="assets/sakan-icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/sakan-favicon-32.png">
+<link rel="apple-touch-icon" href="assets/sakan-favicon-512.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sakan — Find Your Room in Kuwait">
+<meta property="og:description" content="Find a room, partition, or flat in Kuwait without the guesswork. Every owner is Civil ID-verified before posting.">
+<meta property="og:image" content="assets/sakan-favicon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sakan — Find Your Room in Kuwait">
+<meta name="twitter:description" content="Find a room, partition, or flat in Kuwait without the guesswork. Every owner is Civil ID-verified before posting.">
+<meta name="twitter:image" content="assets/sakan-favicon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12232E;
+    --ink-soft:#1B3240;
+    --sand:#F2E8D5;
+    --sand-soft:#FBF8F2;
+    --teal:#1B6B73;
+    --teal-deep:#0F4C52;
+    --gold:#D4A017;
+    --gold-soft:#F0D28A;
+    --coral:#B5563C;
+    --white:#FFFFFF;
+    --line: rgba(18,35,46,0.12);
+    --shadow: 0 12px 32px rgba(18,35,46,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--sand-soft);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+  img{max-width:100%; display:block;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:var(--sand-soft);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:18px 28px; flex-wrap:wrap; row-gap:12px;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:700; font-size:22px;}
+  .logo .tag{
+    width:30px; height:30px; border-radius:7px; background:var(--teal);
+    display:flex; align-items:center; justify-content:center; color:var(--gold-soft);
+    font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:14px;
+    transform:rotate(-6deg);
+  }
+  .nav-links{display:flex; align-items:center; gap:28px; font-size:15px; font-weight:500;}
+  .nav-links a{opacity:0.75; transition:opacity .15s;}
+  .nav-links a:hover{opacity:1;}
+  .btn{
+    padding:11px 20px; border-radius:8px; font-weight:600; font-size:14.5px;
+    transition:transform .15s, box-shadow .15s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--gold); color:var(--ink);}
+  .btn-primary:hover{box-shadow:0 6px 18px rgba(212,160,23,0.4);}
+  .btn-ghost{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-dark{background:var(--ink); color:var(--sand-soft);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--ink);
+    color:var(--sand-soft);
+    padding:76px 0 90px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; top:-120px; right:-120px; width:420px; height:420px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(212,160,23,0.18), transparent 70%);
+  }
+  .hero-inner{position:relative; z-index:2;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--gold-soft); margin-bottom:18px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--gold-soft);}
+  .hero h1{
+    font-size:clamp(36px, 5.2vw, 60px); line-height:1.04; max-width:760px; font-weight:600;
+  }
+  .hero h1 em{font-style:italic; color:var(--gold-soft); font-weight:500;}
+  .hero p.sub{margin-top:20px; font-size:17px; color:rgba(251,248,242,0.72); max-width:520px;}
+
+  .search-card{
+    margin-top:40px; background:var(--sand-soft); border-radius:14px; padding:20px;
+    box-shadow:var(--shadow); display:grid; grid-template-columns:1.4fr 1fr 1fr auto; gap:12px;
+    max-width:920px;
+  }
+  .search-field{display:flex; flex-direction:column; gap:5px; padding:6px 14px; border-right:1px solid var(--line);}
+  .search-field:last-of-type{border-right:none;}
+  .search-field label{font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--teal-deep); font-weight:700;}
+  .search-field select, .search-field input{
+    border:none; background:transparent; font-family:'Inter',sans-serif; font-size:14.5px; color:var(--ink); font-weight:500;
+    outline:none;
+  }
+  .search-btn{
+    background:var(--teal); color:var(--white); border-radius:9px; padding:0 26px;
+    font-weight:700; font-size:14.5px; display:flex; align-items:center; gap:8px;
+  }
+  .search-btn:hover{background:var(--teal-deep);}
+
+  .hero-stats{display:flex; gap:36px; margin-top:44px;}
+  .hero-stats div{border-left:1px solid rgba(251,248,242,0.2); padding-left:16px;}
+  .hero-stats .num{font-family:'Fraunces',serif; font-size:28px; color:var(--gold-soft);}
+  .hero-stats .lbl{font-size:12.5px; color:rgba(251,248,242,0.6); margin-top:2px;}
+
+  /* ---------- SECTION HEADER ---------- */
+  .section{padding:66px 0;}
+  .section-head{display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:34px; flex-wrap:wrap; gap:14px;}
+  .section-head h2{font-size:30px;}
+  .section-head p{color:rgba(18,35,46,0.6); font-size:15px; margin-top:6px;}
+
+  /* ---------- FILTER BAR ---------- */
+  .filter-bar{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px; align-items:center;
+  }
+  .chip{
+    padding:9px 16px; border-radius:999px; border:1px solid var(--line); font-size:13.5px; font-weight:600;
+    background:var(--white); transition:all .15s;
+  }
+  .chip.active, .chip:hover{background:var(--teal); color:var(--white); border-color:var(--teal);}
+
+  /* ---------- LISTING GRID ---------- */
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;}
+  .card{
+    background:var(--white); border-radius:14px; overflow:hidden; border:1px solid var(--line);
+    transition:transform .18s, box-shadow .18s; cursor:pointer; position:relative;
+  }
+  .card:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+  .card-img{
+    height:170px; position:relative; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-size:15px; color:rgba(255,255,255,0.85);
+  }
+  .keytag{
+    position:absolute; top:12px; left:-6px; background:var(--gold); color:var(--ink);
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.03em;
+    padding:5px 12px 5px 16px; border-radius:0 5px 5px 0; text-transform:uppercase;
+    box-shadow:0 3px 6px rgba(0,0,0,0.2);
+  }
+  .keytag::before{
+    content:""; position:absolute; left:0; top:100%; border-style:solid;
+    border-width:0 0 6px 6px; border-color:transparent transparent #8a6a0f transparent;
+  }
+  .featured-badge{
+    position:absolute; top:12px; right:12px; background:rgba(18,35,46,0.85); color:var(--gold-soft);
+    font-size:10.5px; font-weight:700; padding:5px 10px; border-radius:6px; letter-spacing:0.04em;
+    text-transform:uppercase; display:flex; align-items:center; gap:4px;
+  }
+  .card-body{padding:16px 18px 18px;}
+  .card-body .price{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; color:var(--teal-deep);}
+  .card-body .price span{font-size:12px; font-weight:500; color:rgba(18,35,46,0.5);}
+  .card-body h3{font-size:16.5px; margin-top:6px; font-weight:600; font-family:'Inter',sans-serif;}
+  .card-meta{display:flex; gap:12px; margin-top:10px; font-size:12.5px; color:rgba(18,35,46,0.55); flex-wrap:wrap;}
+  .card-meta span{display:flex; align-items:center; gap:4px;}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{background:var(--teal); color:var(--sand-soft); padding:70px 0;}
+  .how .section-head h2, .how .section-head p{color:var(--sand-soft);}
+  .how .section-head p{color:rgba(251,248,242,0.7);}
+  .how-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  .how-card{background:rgba(251,248,242,0.06); border:1px solid rgba(251,248,242,0.15); border-radius:14px; padding:26px;}
+  .how-num{font-family:'IBM Plex Mono',monospace; color:var(--gold-soft); font-size:13px; margin-bottom:14px;}
+  .how-card h3{font-size:19px; margin-bottom:8px; color:var(--sand-soft);}
+  .how-card p{font-size:14.5px; color:rgba(251,248,242,0.7);}
+
+  /* ---------- OWNER CTA ---------- */
+  .owner-cta{padding:80px 0;}
+  .owner-box{
+    background:var(--ink); border-radius:20px; padding:56px; display:flex; align-items:center; justify-content:space-between; gap:40px;
+    position:relative; overflow:hidden;
+  }
+  .owner-box::after{
+    content:""; position:absolute; bottom:-100px; left:30%; width:300px; height:300px; border-radius:50%;
+    background:radial-gradient(circle, rgba(27,107,115,0.35), transparent 70%);
+  }
+  .owner-box .left{position:relative; z-index:2; max-width:520px;}
+  .owner-box h2{color:var(--sand-soft); font-size:30px;}
+  .owner-box p{color:rgba(251,248,242,0.68); margin-top:12px; font-size:15px;}
+  .price-tiers{display:flex; gap:14px; margin-top:26px; position:relative; z-index:2;}
+  .tier{background:rgba(251,248,242,0.06); border:1px solid rgba(251,248,242,0.15); border-radius:12px; padding:18px 20px; min-width:140px;}
+  .tier .t-name{font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--gold-soft); font-weight:700;}
+  .tier .t-price{font-family:'Fraunces',serif; font-size:26px; color:var(--sand-soft); margin-top:8px;}
+  .tier .t-desc{font-size:12.5px; color:rgba(251,248,242,0.6); margin-top:6px;}
+
+  footer{background:var(--ink-soft); color:rgba(251,248,242,0.55); padding:34px 0; font-size:13.5px; text-align:center;}
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(18,35,46,0.55); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--sand-soft); border-radius:16px; max-width:900px; width:100%; max-height:88vh; overflow-y:auto;
+    box-shadow:0 30px 60px rgba(0,0,0,0.3);
+  }
+  .modal-close{
+    position:sticky; top:16px; float:right; margin-right:16px; background:var(--white); width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:var(--shadow); z-index:5;
+  }
+  .modal-hero{height:260px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.85); font-family:'Fraunces',serif;}
+  .modal-body{padding:32px 40px 40px;}
+  .modal-body .price-row{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;}
+  .modal-body .price-row .price{font-family:'IBM Plex Mono',monospace; font-size:26px; color:var(--teal-deep); font-weight:600;}
+  .modal-body h2{font-size:26px; margin-top:6px;}
+  .modal-meta{display:flex; gap:18px; margin:16px 0 22px; flex-wrap:wrap;}
+  .modal-meta .pill{background:var(--white); border:1px solid var(--line); border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600;}
+  .modal-desc{font-size:15px; color:rgba(18,35,46,0.75); line-height:1.7; margin-bottom:24px;}
+  .modal-owner{
+    display:flex; align-items:center; justify-content:space-between; background:var(--white); border:1px solid var(--line);
+    border-radius:12px; padding:18px 22px; flex-wrap:wrap; gap:14px;
+  }
+  .owner-info{display:flex; align-items:center; gap:12px;}
+  .owner-avatar{width:44px; height:44px; border-radius:50%; background:var(--teal); color:var(--white); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:'Fraunces',serif;}
+
+  /* ---------- CHAT PANEL ---------- */
+  .chat-overlay{position:fixed; inset:0; background:rgba(18,35,46,0.55); display:none; align-items:center; justify-content:center; z-index:300; padding:20px;}
+  .chat-overlay.open{display:flex;}
+  .chat-window{background:var(--white); width:100%; max-width:420px; border-radius:16px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.35); display:flex; flex-direction:column; height:560px;}
+  .chat-head{background:var(--ink); color:var(--sand-soft); padding:16px 20px; display:flex; align-items:center; justify-content:space-between;}
+  .chat-head .who{display:flex; align-items:center; gap:10px;}
+  .chat-body{flex:1; padding:18px 16px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; background:var(--sand-soft);}
+  .msg{max-width:78%; padding:10px 14px; border-radius:12px; font-size:14px; line-height:1.4;}
+  .msg.them{background:var(--white); border:1px solid var(--line); align-self:flex-start; border-bottom-left-radius:3px;}
+  .msg.me{background:var(--teal); color:var(--white); align-self:flex-end; border-bottom-right-radius:3px;}
+  .chat-input{display:flex; gap:8px; padding:14px; border-top:1px solid var(--line); background:var(--white);}
+  .chat-input input{flex:1; border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-family:inherit; font-size:14px; outline:none;}
+  .chat-input button{background:var(--gold); color:var(--ink); border-radius:8px; padding:0 16px; font-weight:700;}
+  .quick-reply-chip{background:var(--sand); border:1px solid var(--line); border-radius:999px; padding:6px 12px; font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap;}
+  .quick-reply-chip:hover{background:var(--gold-soft);}
+  .seen-indicator{font-size:11px; color:rgba(18,35,46,0.45); text-align:right; margin-top:-4px; margin-right:4px;}
+  #notifBadge{background:var(--coral); color:var(--white); font-size:10px; font-weight:700; border-radius:999px; padding:1px 5px; position:absolute; top:-4px; right:-4px;}
+
+  /* ---------- POST LISTING MODAL ---------- */
+  .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .form-field{display:flex; flex-direction:column; gap:6px; margin-bottom:16px;}
+  .form-field.full{grid-column:1/-1;}
+  .form-field label{font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--teal-deep);}
+  .form-field input, .form-field select, .form-field textarea{
+    border:1px solid var(--line); border-radius:8px; padding:11px 14px; font-family:inherit; font-size:14.5px; outline:none; background:var(--white);
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{border-color:var(--teal);}
+  .tier-select{display:flex; gap:12px; margin:8px 0 22px;}
+  .tier-opt{flex:1; border:2px solid var(--line); border-radius:12px; padding:16px; cursor:pointer; transition:border-color .15s;}
+  .tier-opt.selected{border-color:var(--gold); background:rgba(212,160,23,0.08);}
+  .tier-opt .t-name{font-weight:700; font-size:13.5px;}
+  .tier-opt .t-price{font-family:'IBM Plex Mono',monospace; color:var(--teal-deep); margin-top:4px; font-size:16px;}
+
+  @media(max-width:860px){
+    .grid{grid-template-columns:1fr 1fr;}
+    .search-card{grid-template-columns:1fr; }
+    .search-field{border-right:none; border-bottom:1px solid var(--line);}
+    .how-grid{grid-template-columns:1fr;}
+    .owner-box{flex-direction:column; align-items:flex-start;}
+    .form-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+  }
+  @media(max-width:560px){
+    .grid{grid-template-columns:1fr;}
+    .hero-stats{flex-wrap:wrap; gap:20px;}
+    .modal-body{padding:22px 20px 30px;}
+  }
+
+  :focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner wrap" style="padding-left:0; padding-right:0;">
+    <div class="logo"><span class="tag">S</span>Sakan</div>
+    <div class="nav-links">
+      <a href="#browse">Browse Rooms</a>
+      <a href="#how">How it works</a>
+      <a href="#owners">List your place</a>
+      <a href="#" onclick="window.openSafetyGuide(); return false;">Safety Guide</a>
+      <a href="#" onclick="window.openMoveInChecklist(); return false;">Move-in Checklist</a>
+      <a href="#" onclick="window.openPrivacyPolicy(); return false;">Privacy</a>
+      <a href="#" onclick="window.openContactUs(); return false;">Contact Us</a>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; row-gap:8px; max-width:520px;" id="authSlot-wrap">
+      <span id="authSlot" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; row-gap:8px;"><button class="btn btn-ghost" onclick="window.openAuthModal()">Sign in</button></span>
+      <button class="btn btn-primary" onclick="window.openPostModal()">+ Post a listing</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Built for Kuwait's expat community</div>
+    <h1>Find a room, partition,<br>or flat — <em>without the guesswork.</em></h1>
+    <p class="sub">Browse real listings, message owners directly, and settle in faster. No agents, no runaround.</p>
+
+    <div class="search-card">
+      <div class="search-field">
+        <label>Area</label>
+        <select><option>Any area in Kuwait</option><option>Salmiya</option><option>Hawally</option><option>Farwaniya</option><option>Jleeb Al-Shuyoukh</option><option>Fahaheel</option><option>Mahboula</option><option>Khaitan</option></select>
+      </div>
+      <div class="search-field">
+        <label>Type</label>
+        <select><option>Any type</option><option>Partition</option><option>Studio</option><option>1BR Apartment</option><option>2BR+ Apartment</option><option>Shared Room</option></select>
+      </div>
+      <div class="search-field">
+        <label>Max budget (KD)</label>
+        <input type="text" placeholder="e.g. 120">
+      </div>
+      <button class="search-btn" onclick="document.getElementById('browse').scrollIntoView({behavior:'smooth'})">Search</button>
+    </div>
+
+    <div class="hero-stats">
+      <div><div class="num" id="statListingCount">—</div><div class="lbl">Active listings</div></div>
+      <div><div class="num" id="statAreaCount">—</div><div class="lbl">Areas covered</div></div>
+      <div><div class="num">0 KD</div><div class="lbl">To browse & chat</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="browse">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Available now</h2>
+        <p>Tap any listing to see photos, details, and message the owner.</p>
+      </div>
+    </div>
+    <div class="filter-bar" id="typeFilterBar">
+      <button class="chip active" data-type="All" onclick="window.setTypeFilter('All', this)">All</button>
+      <button class="chip" data-type="Partition" onclick="window.setTypeFilter('Partition', this)">Partitions</button>
+      <button class="chip" data-type="Studio" onclick="window.setTypeFilter('Studio', this)">Studios</button>
+      <button class="chip" data-type="1BR Apartment" onclick="window.setTypeFilter('1BR Apartment', this)">1BR</button>
+      <button class="chip" data-type="2BR+ Apartment" onclick="window.setTypeFilter('2BR+ Apartment', this)">2BR+</button>
+      <button class="chip" data-forwho="Family" onclick="window.setForWhoFilter('Family', this)">Family only</button>
+      <button class="chip" data-forwho="Bachelors" onclick="window.setForWhoFilter('Bachelors', this)">Bachelors only</button>
+    </div>
+    <div class="filter-bar" id="amenityFilterBar" style="margin-top:-8px;">
+      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Halal food nearby', this)">🍽️ Halal food nearby</button>
+      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Prayer room in building', this)">🕌 Prayer room</button>
+      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Public transport nearby', this)">🚌 Near transport</button>
+      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Furnished', this)">🛋️ Furnished</button>
+      <button class="chip" data-lease onclick="window.toggleChipFilter('lease', 'Monthly', this)">📅 Monthly lease</button>
+    </div>
+    <div class="grid" id="listingGrid"></div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>How Sakan works</h2>
+        <p>Three steps, no middlemen fees for seekers.</p>
+      </div>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01 / SEARCH</div>
+        <h3>Filter by area & budget</h3>
+        <p>Narrow down partitions, studios, or flats by location, price, and who they're suited for.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02 / CHAT</div>
+        <h3>Message the owner directly</h3>
+        <p>No calls to strangers. Chat in-app first, share contact details only when you're ready.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03 / MOVE IN</div>
+        <h3>Confirm and settle in</h3>
+        <p>Agree on terms directly with the owner. Sakan just gets you talking faster.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="owner-cta" id="owners">
+  <div class="wrap">
+    <div class="owner-box">
+      <div class="left">
+        <h2>Have a place to rent out?</h2>
+        <p>Post your first listing free. From your second on, it's 2 KD per post via WAMD or Pay Link. Every listing is quickly ID-verified before it goes live, so seekers can trust what they see.</p>
+        <p style="margin-top:8px; font-size:13px; color:rgba(251,248,242,0.55);">🛡️ You'll be asked for a Civil ID photo when posting — it's kept private and only used to confirm you're a real owner.</p>
+        <div class="price-tiers">
+          <div class="tier"><div class="t-name">First listing</div><div class="t-price">Free</div><div class="t-desc">Published instantly</div></div>
+          <div class="tier"><div class="t-name">Each listing after</div><div class="t-price">2 KD</div><div class="t-desc">Pay via WAMD/Pay Link, then approved</div></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="position:relative; z-index:2; white-space:nowrap;" onclick="openPostModal()">Post a listing →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Sakan · Built for Kuwait's expat community</div>
+</footer>
+
+<!-- LISTING DETAIL MODAL -->
+<div class="modal-overlay" id="listingModal">
+  <div class="modal">
+    <div class="modal-close" onclick="window.closeModal('listingModal')">✕</div>
+    <div class="modal-hero" id="modalHeroImg"></div>
+    <div class="modal-body">
+      <div class="price-row">
+        <div>
+          <div class="price" id="modalPrice"></div>
+          <h2 id="modalTitle"></h2>
+        </div>
+        <button class="btn btn-primary" onclick="window.openChat()">💬 Chat with owner</button>
+      </div>
+      <div class="modal-meta" id="modalMeta"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-owner">
+        <div class="owner-info">
+          <div class="owner-avatar" id="modalOwnerInitial"></div>
+          <div>
+            <div style="font-weight:600;" id="modalOwnerName"></div>
+            <div style="font-size:12.5px; color:rgba(18,35,46,0.55);">Usually replies within a few hours</div>
+          </div>
+        </div>
+        <button class="btn btn-dark" onclick="window.openChat()">Message owner</button>
+      </div>
+      <div style="background:var(--sand); border-radius:10px; padding:14px 16px; margin-top:16px; font-size:13px; color:rgba(18,35,46,0.7); line-height:1.6;">
+        🛡️ <strong>Stay safe:</strong> view the property in person before paying any deposit, and confirm the owner's ID matches the property's documents. Never send money to someone you haven't met or verified.
+        <br><a id="reportListingLink" href="#" style="color:var(--coral); font-weight:600; text-decoration:underline;">Report this listing</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT MODAL -->
+<div class="chat-overlay" id="chatModal">
+  <div class="chat-window">
+    <div class="chat-head">
+      <div class="who">
+        <div class="owner-avatar" style="width:34px; height:34px; font-size:14px;" id="chatHeadInitial">?</div>
+        <div>
+          <div style="font-weight:600; font-size:14.5px;" id="chatHeadName">Owner</div>
+          <div style="font-size:11.5px; color:rgba(251,248,242,0.6);">Direct message</div>
+        </div>
+      </div>
+      <span id="chatRevealSlot"></span>
+      <div onclick="window.closeModal('chatModal')" style="cursor:pointer; font-size:18px; margin-left:8px;">✕</div>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div id="quickReplyRow" style="display:none; gap:6px; padding:8px 12px 0; flex-wrap:wrap;"></div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type a message...">
+      <button onclick="window.sendChat()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- POST LISTING MODAL -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-close" onclick="window.closeModal('postModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:4px;" id="postModalTitle">Post your listing</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:14.5px; margin-bottom:26px;" id="postModalSub">Your first listing is free. From your second listing on, publishing costs 2 KD, paid via WAMD/Pay Link and approved once confirmed.</p>
+      <div class="form-grid">
+        <div class="form-field"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Partition for bachelors, Salmiya"></div>
+        <div class="form-field"><label>Area</label><input type="text" id="f-area" placeholder="e.g. Salmiya"></div>
+        <div class="form-field"><label>Type</label>
+          <select id="f-type"><option>Partition</option><option>Studio</option><option>1BR Apartment</option><option>2BR+ Apartment</option><option>Shared Room</option></select>
+        </div>
+        <div class="form-field"><label>Monthly rent (KD)</label><input type="text" id="f-price" placeholder="e.g. 65"></div>
+        <div class="form-field"><label>Suited for</label>
+          <select id="f-forwho"><option>Bachelors</option><option>Family</option><option>Either</option></select>
+        </div>
+        <div class="form-field"><label>Your phone or WhatsApp</label><input type="text" id="f-phone" placeholder="Only shared after you approve chat"></div>
+        <div class="form-field"><label>Lease length</label>
+          <select id="f-lease"><option>Flexible</option><option>Monthly</option><option>Short-term (1-6 months)</option><option>Long-term (6+ months)</option></select>
+        </div>
+        <div class="form-field full">
+          <label>Languages you speak (helps expats know they can communicate easily)</label>
+          <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:4px;">
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Arabic"> Arabic</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="English"> English</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Hindi"> Hindi</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Urdu"> Urdu</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Tagalog"> Tagalog</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Malayalam"> Malayalam</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Bengali"> Bengali</label>
+          </div>
+        </div>
+        <div class="form-field full">
+          <label>Nearby / building amenities</label>
+          <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:4px;">
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Halal food nearby"> Halal food nearby</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Prayer room in building"> Prayer room in building</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Public transport nearby"> Public transport nearby</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Family-friendly building"> Family-friendly building</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Furnished"> Furnished</label>
+          </div>
+        </div>
+        <div class="form-field full"><label>Description</label><textarea rows="4" id="f-desc" placeholder="AC, furnishing, distance to metro/bus, included bills, etc."></textarea></div>
+        <div class="form-field full"><label>Photo of the property</label><input type="file" id="f-photo" accept="image/*"></div>
+        <div class="form-field"><label>Civil ID full name (as it appears on your ID)</label><input type="text" id="f-idname" placeholder="e.g. Ahmad Yousef Al-Sabah"></div>
+        <div class="form-field"><label>Civil ID number (12 digits)</label><input type="text" id="f-idnumber" inputmode="numeric" maxlength="14" placeholder="e.g. 289011212345"></div>
+        <div class="form-field full">
+          <label>Civil ID photo (required — kept private, reviewed only by Sakan Customer Care)</label>
+          <input type="file" id="f-idphoto" accept="image/*">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="submitListingBtn" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitListing()">Publish listing</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-close" onclick="window.closeModal('authModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+
+      <div id="authFormStep">
+        <h2 style="margin-bottom:18px;">Sign in to Sakan</h2>
+        <div class="form-field">
+          <label>I want to</label>
+          <select id="authMode" onchange="window.toggleAuthRoleField()">
+            <option value="login">Sign in</option>
+            <option value="signup">Create an account</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Name (for new accounts)</label><input type="text" id="authName" placeholder="Your name"></div>
+        <div class="form-field" id="authRoleField"><label>I'm signing up as a</label>
+          <select id="authRole">
+            <option value="seeker">Room seeker (browsing/looking for a place)</option>
+            <option value="owner">House owner (listing a place to rent)</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"></div>
+        <div class="form-field"><label>Password</label><input type="password" id="authPassword" placeholder="••••••••"></div>
+        <p style="margin:-6px 0 14px;"><a href="#" onclick="window.forgotPassword(); return false;" style="font-size:12.5px; color:var(--teal-deep); font-weight:600; text-decoration:underline;">Forgot your password?</a></p>
+        <p id="authError" style="color:var(--coral); font-size:13px; margin-bottom:12px;"></p>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitAuth()">Continue</button>
+      </div>
+
+      <div id="authVerifyStep" style="display:none;">
+        <h2 style="margin-bottom:8px;">Verify your email</h2>
+        <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:20px;">
+          We sent a 6-digit code to <strong id="verifyEmailDisplay"></strong>. Enter it below to finish creating your account.
+        </p>
+        <div class="form-field">
+          <label>Verification code</label>
+          <input type="text" id="authCode" inputmode="numeric" maxlength="6" placeholder="123456" style="font-size:20px; letter-spacing:0.3em; text-align:center;">
+        </div>
+        <p id="verifyError" style="color:var(--coral); font-size:13px; margin-bottom:12px;"></p>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitVerificationCode()">Verify & create account</button>
+        <p style="text-align:center; margin-top:14px; font-size:13px;">
+          Didn't get it? <a href="#" onclick="window.resendVerificationCode(); return false;" style="color:var(--teal-deep); font-weight:600; text-decoration:underline;">Resend code</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MY LISTINGS MODAL -->
+<div class="modal-overlay" id="myListingsModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-close" onclick="window.closeModal('myListingsModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:18px;">My listings</h2>
+      <div id="myListingsBody"></div>
+      <div style="background:var(--sand); border-radius:12px; padding:16px 18px; margin-top:24px;">
+        <div style="font-weight:700; font-size:14px; margin-bottom:4px;">🎁 Invite friends to Sakan</div>
+        <div style="font-size:13px; color:rgba(18,35,46,0.65); margin-bottom:10px;" id="referralCountDisplay">Loading…</div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="referralLinkDisplay" readonly style="flex:1; border:1px solid var(--line); border-radius:8px; padding:9px 12px; font-size:12.5px; background:var(--white);">
+          <button class="btn btn-primary" style="padding:9px 14px; font-size:13px;" onclick="window.copyReferralLink()">Copy link</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SAFETY GUIDE MODAL -->
+<div class="modal-overlay" id="safetyGuideModal">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-close" onclick="window.closeModal('safetyGuideModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:6px;">Sakan Safety Guide</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:22px;">A few habits that protect you, whether you're renting or listing a place.</p>
+      <div style="display:flex; flex-direction:column; gap:16px; font-size:14px; line-height:1.6;">
+        <div><strong>🔍 Verify before you commit.</strong> Every owner on Sakan has passed Civil ID verification before their listing goes live — but always view the property in person before paying anything.</div>
+        <div><strong>💳 Never pay before viewing.</strong> No deposit, no "booking fee," no exceptions — not until you've seen the place and met the owner face to face.</div>
+        <div><strong>📞 Keep contact inside Sakan at first.</strong> Chat through the app until you're comfortable — phone numbers are only shared once the owner chooses to reveal them.</div>
+        <div><strong>🧾 Get it in writing.</strong> Once you agree on terms, ask for a simple written agreement covering rent, deposit, duration, and what's included (utilities, furniture, etc.).</div>
+        <div><strong>🚩 Trust your instincts.</strong> Pressure to move fast, requests for money via unusual methods, or refusal to meet in person are red flags — use the "Report this listing" link if something feels off.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOVE-IN CHECKLIST MODAL -->
+<div class="modal-overlay" id="moveInChecklistModal">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-close" onclick="window.closeModal('moveInChecklistModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:6px;">Your first 90 days in Kuwait — Move-in Checklist</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:22px;">Bring these and ask these before you sign anything.</p>
+      <div style="margin-bottom:20px;">
+        <div style="font-weight:700; font-size:13.5px; text-transform:uppercase; letter-spacing:0.03em; color:var(--teal-deep); margin-bottom:8px;">📋 Bring with you</div>
+        <ul style="margin:0; padding-left:20px; font-size:14px; line-height:1.9; color:rgba(18,35,46,0.8);">
+          <li>Civil ID or passport copy</li>
+          <li>Proof of income / employer letter (some owners ask for this)</li>
+          <li>First month's rent + security deposit, in cash or KNET</li>
+          <li>A friend, colleague, or someone from your community if you can — a second set of eyes helps</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:700; font-size:13.5px; text-transform:uppercase; letter-spacing:0.03em; color:var(--teal-deep); margin-bottom:8px;">❓ Ask the owner</div>
+        <ul style="margin:0; padding-left:20px; font-size:14px; line-height:1.9; color:rgba(18,35,46,0.8);">
+          <li>Is the deposit refundable, and under what conditions?</li>
+          <li>What's included — water, electricity, internet, furniture?</li>
+          <li>Is subletting or having guests stay over allowed?</li>
+          <li>What's the process if something breaks (AC, water heater, etc.)?</li>
+          <li>How much notice is needed before moving out?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT US MODAL -->
+<div class="modal-overlay" id="contactUsModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-close" onclick="window.closeModal('contactUsModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:6px;">Contact Sakan</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:22px;">Questions, feedback, or need help with your account? Reach out any time.</p>
+      <div style="background:var(--sand); border-radius:12px; padding:18px 20px; margin-bottom:20px;">
+        <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--teal-deep); font-weight:700; margin-bottom:6px;">Email</div>
+        <a href="mailto:sakan9926@gmail.com" style="font-size:16px; font-weight:600; color:var(--ink); text-decoration:none;">sakan9926@gmail.com</a>
+      </div>
+      <a href="mailto:sakan9926@gmail.com" class="btn btn-primary" style="width:100%; justify-content:center; padding:14px; text-decoration:none;">Send us an email</a>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY POLICY MODAL -->
+<div class="modal-overlay" id="privacyModal">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-close" onclick="window.closeModal('privacyModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:6px;">Privacy & how your data is used</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:13px; margin-bottom:22px;">Plain language, not legal boilerplate. Last updated August 2026.</p>
+      <div style="display:flex; flex-direction:column; gap:16px; font-size:14px; line-height:1.6; color:rgba(18,35,46,0.85);">
+        <div><strong>What we collect.</strong> Your name, email, and phone number when you sign up or post a listing. If you're listing a place, we also collect a photo of your Civil ID, your Civil ID number, and the name on it — this is required to verify you're a real owner before your listing goes live. Chat messages you send through Sakan are stored so conversations stay accessible to both sides.</div>
+        <div><strong>Why we collect it.</strong> Civil ID details exist purely to confirm you're a real person listing a real property — this is what lets Sakan verify owners when most platforms don't. Your contact details let other users reach you once you choose to share them; your phone number specifically is never shown to anyone until you personally tap "Share my number" in a chat.</div>
+        <div><strong>Who can see your Civil ID.</strong> Only Sakan Customer Care reviews Civil ID photos and numbers — for the sole purpose of approving or rejecting a listing. It's never shown publicly, never shown to other users, and never sold or shared with anyone else.</div>
+        <div><strong>Where it's stored.</strong> Sakan runs on Google Firebase, a widely-used, secure cloud infrastructure — the same kind of infrastructure banks and major apps run on. Photos are hosted via Cloudinary.</div>
+        <div><strong>Your control over your data.</strong> You can ask to have your account and all your listings permanently removed at any time — just contact Sakan Customer Care. Deleting your account removes your profile and listings from Sakan.</div>
+        <div><strong>Questions?</strong> Reach out any time through the contact details on the site.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MANAGE ACCOUNTS MODAL (admin only) -->
+<div class="modal-overlay" id="manageAccountsModal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-close" onclick="window.closeModal('manageAccountsModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:4px;">Manage accounts</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:13px; margin-bottom:20px;">Deleting an account removes their profile and all their listings from Sakan. This doesn't delete their login itself — see the README for why.</p>
+      <div id="manageAccountsBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT CLAIM MODAL -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-close" onclick="window.closeModal('paymentModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:6px;">Pay to publish</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:20px;" id="paymentListingTitle"></p>
+      <input type="hidden" id="paymentListingId">
+      <div style="background:var(--sand); border-radius:12px; padding:20px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+          <span style="font-size:13px; color:rgba(18,35,46,0.6);">Amount</span>
+          <span style="font-weight:700;" id="paymentAmountDisplay"></span>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="font-size:13px; color:rgba(18,35,46,0.6);">Send via WAMD / Pay Link to</span>
+          <span class="mono" style="font-weight:700;" id="paymentPhoneDisplay"></span>
+        </div>
+      </div>
+      <p style="font-size:13px; color:rgba(18,35,46,0.6); margin-bottom:20px;">Once you've sent payment, tap the button below. Sakan Customer Care will confirm it and your listing goes live shortly after.</p>
+      <button class="btn btn-primary" id="markPaidBtn" style="width:100%; justify-content:center; padding:14px;" onclick="window.markAsPaid()">I've paid — notify Sakan</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="module" src="app.js"></script>
+<script>
+document.getElementById('chatInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') window.sendChat(); });
+document.querySelectorAll('.modal-overlay, .chat-overlay').forEach(ov => {
+  ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
+});
+</script>
+</body>
+</html>

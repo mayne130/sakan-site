@@ -1,0 +1,91 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Fill in your admin email(s) here, matching js/admin-config.js ──
+    function isAdmin() {
+      return request.auth != null &&
+        request.auth.token.email in ["sakan9926@gmail.com"];
+    }
+
+    // Signup verification codes: written and read before an account exists,
+    // so this can't require request.auth. Keyed by a random 128-bit token
+    // generated in the browser (not by email), so nobody can look up or
+    // guess another person's code without already having this exact token.
+    // "list" is explicitly denied — without this, someone could query the
+    // whole collection and see every pending code at once regardless of
+    // how random each individual token is.
+    match /signupCodes/{token} {
+      allow get, write, delete: if true;
+      allow list: if false;
+    }
+
+    // Users: only signed-in people can read profiles (stops anonymous
+    // scraping of every registered email/name), and only write their own.
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && (request.auth.uid == userId || isAdmin());
+    }
+
+    // Anyone can read active listings. Only signed-in users with an
+    // "owner" role on their profile can create one — this is the real
+    // enforcement point; the UI just makes it easy to switch to owner.
+    // The owner can edit their own listing's details at any time.
+    // Only the owner can set status to 'pending_approval'/'inactive' themselves;
+    // only admin can set status to 'active' (approve) or 'rejected'.
+    match /listings/{listingId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.ownerId == request.auth.uid
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'owner';
+      allow update: if request.auth != null && (
+        isAdmin() ||
+        (resource.data.ownerId == request.auth.uid &&
+         (request.resource.data.status == resource.data.status || request.resource.data.status != 'active'))
+      );
+      allow delete: if request.auth != null && (resource.data.ownerId == request.auth.uid || isAdmin());
+    }
+
+    // Chat-start notifications to owners: any signed-in user can create one
+    // for someone else; only the recipient can read/mark it read.
+    match /notifications/{notifId} {
+      allow read, update: if request.auth != null && resource.data.toUserId == request.auth.uid;
+      allow create: if request.auth != null;
+    }
+
+    // Payment-claim notifications: owner creates one for their own listing.
+    // The extra get() check here matters — without it, someone could file
+    // a fake claim pointing at a listing they don't actually own, tricking
+    // admin into approving/verifying the wrong person. Only admin can read
+    // the queue and resolve (approve/reject) it.
+    match /adminNotifications/{notifId} {
+      allow create: if request.auth != null
+        && request.resource.data.ownerId == request.auth.uid
+        && get(/databases/$(database)/documents/listings/$(request.resource.data.listingId)).data.ownerId == request.auth.uid;
+      allow read, update: if isAdmin();
+    }
+
+    // Listing reports: any signed-in user can file one; only admin can
+    // read the queue and mark reports resolved.
+    match /reports/{reportId} {
+      allow create: if request.auth != null && request.resource.data.reporterId == request.auth.uid;
+      allow read, update: if isAdmin();
+    }
+
+    // Only chat participants can read/write a chat thread and its messages
+    match /chats/{chatId} {
+      allow get: if request.auth != null && (resource == null || request.auth.uid in resource.data.participants);
+      allow list: if false;
+      allow create: if request.auth != null && request.auth.uid in request.resource.data.participants;
+      allow update: if request.auth != null && request.auth.uid in resource.data.participants;
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if request.auth != null && request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants;
+        allow create: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants
+          && request.resource.data.senderId == request.auth.uid;
+      }
+    }
+  }
+}
