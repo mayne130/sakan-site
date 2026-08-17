@@ -1085,7 +1085,7 @@ function renderNotificationPanel(items) {
       <div style="font-size:13.5px; font-weight:600;">${esc(n.fromName)} wants to chat</div>
       <div style="font-size:12.5px; color:rgba(18,35,46,0.6); margin-top:2px;">${esc(n.listingTitle)}</div>
     </div>
-  `).join('') : `<div style="padding:16px; font-size:13px; color:rgba(18,35,46,0.55);">No notifications yet.</div>`;
+  `).join('') : `<div style="padding:16px; font-size:13px; color:rgba(18,35,46,0.55);">No new notifications.</div>`;
 }
 
 window.toggleNotifications = () => {
@@ -1093,7 +1093,7 @@ window.toggleNotifications = () => {
   if (!panel) {
     panel = document.createElement('div');
     panel.id = 'notifPanel';
-    panel.style.cssText = 'position:absolute; top:64px; right:28px; width:300px; max-height:360px; overflow-y:auto; background:var(--white); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); z-index:60;';
+    panel.style.cssText = 'position:fixed; top:70px; right:16px; width:300px; max-width:calc(100vw - 32px); max-height:70vh; overflow-y:auto; background:var(--white); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); z-index:200;';
     document.body.appendChild(panel);
   }
   panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
@@ -1242,7 +1242,7 @@ window.toggleAdminPanel = () => {
   if (!panel) {
     panel = document.createElement('div');
     panel.id = 'adminPanel';
-    panel.style.cssText = 'position:absolute; top:64px; right:28px; width:340px; max-height:500px; overflow-y:auto; background:var(--white); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); z-index:60;';
+    panel.style.cssText = 'position:fixed; top:70px; right:16px; width:340px; max-width:calc(100vw - 32px); max-height:70vh; overflow-y:auto; background:var(--white); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); z-index:200;';
     panel.innerHTML = `
       <div id="adminStatsBar" style="padding:12px 16px; border-bottom:2px solid var(--line); background:var(--sand); font-size:13px; font-weight:700; color:var(--teal-deep); position:sticky; top:0;">Loading stats…</div>
       <div id="adminQueueList"></div>
