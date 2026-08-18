@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sakan — Find Your Room in Kuwait</title>
-<meta name="description" content="Find a room, partition, or flat in Kuwait without the guesswork. Every owner on Sakan is Civil ID-verified before their listing goes live — built for Kuwait's expat community.">
+<meta name="description" content="Find a room, partition, or flat in Kuwait — a key you can trust. Every owner on Sakan is Civil ID-verified before their listing goes live, built for Kuwait's expat community.">
 <link rel="icon" type="image/svg+xml" href="assets/sakan-icon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/sakan-favicon-32.png">
 <link rel="apple-touch-icon" href="assets/sakan-favicon-512.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sakan — Find Your Room in Kuwait">
-<meta property="og:description" content="Find a room, partition, or flat in Kuwait without the guesswork. Every owner is Civil ID-verified before posting.">
+<meta property="og:description" content="Find a room, partition, or flat in Kuwait — a key you can trust. Every owner is Civil ID-verified before posting.">
 <meta property="og:image" content="assets/sakan-favicon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sakan — Find Your Room in Kuwait">
-<meta name="twitter:description" content="Find a room, partition, or flat in Kuwait without the guesswork. Every owner is Civil ID-verified before posting.">
+<meta name="twitter:description" content="Find a room, partition, or flat in Kuwait — a key you can trust. Every owner is Civil ID-verified before posting.">
 <meta name="twitter:image" content="assets/sakan-favicon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -292,47 +292,49 @@
   <div class="nav-inner wrap" style="padding-left:0; padding-right:0;">
     <div class="logo"><span class="tag">S</span>Sakan</div>
     <div class="nav-links">
-      <a href="#browse">Browse Rooms</a>
-      <a href="#how">How it works</a>
-      <a href="#owners" id="listYourPlaceLink">List your place</a>
-      <a href="#" onclick="window.openSafetyGuide(); return false;">Safety Guide</a>
-      <a href="#" onclick="window.openMoveInChecklist(); return false;">Move-in Checklist</a>
-      <a href="#" onclick="window.openPrivacyPolicy(); return false;">Privacy</a>
-      <a href="#" onclick="window.openContactUs(); return false;">Contact Us</a>
+      <a href="#browse" data-i18n="nav_browse">Browse Rooms</a>
+      <a href="#how" data-i18n="nav_how">How it works</a>
+      <a href="#owners" id="listYourPlaceLink" data-i18n="nav_list">List your place</a>
+      <a href="#" onclick="window.openSafetyGuide(); return false;" data-i18n="nav_safety">Safety Guide</a>
+      <a href="#" onclick="window.openMoveInChecklist(); return false;" data-i18n="nav_movein">Move-in Checklist</a>
+      <a href="#" onclick="window.openAboutUs(); return false;" data-i18n="nav_about">About</a>
+      <a href="#" onclick="window.openPrivacyPolicy(); return false;" data-i18n="nav_privacy">Privacy</a>
+      <a href="#" onclick="window.openContactUs(); return false;" data-i18n="nav_contact">Contact Us</a>
     </div>
-    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; row-gap:8px; max-width:520px;" id="authSlot-wrap">
-      <span id="authSlot" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; row-gap:8px;"><button class="btn btn-ghost" onclick="window.openAuthModal()">Sign in</button></span>
-      <button class="btn btn-primary" id="postListingNavBtn" onclick="window.openPostModal()">+ Post a listing</button>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; row-gap:8px; max-width:560px;" id="authSlot-wrap">
+      <button class="btn btn-ghost" id="langToggleBtn" onclick="window.toggleLanguage()">العربية</button>
+      <span id="authSlot" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; row-gap:8px;"><button class="btn btn-ghost" onclick="window.openAuthModal()" data-i18n="nav_signin">Sign in</button></span>
+      <button class="btn btn-primary" id="postListingNavBtn" onclick="window.openPostModal()" data-i18n="nav_post">+ Post a listing</button>
     </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap hero-inner">
-    <div class="eyebrow">Built for Kuwait's expat community</div>
-    <h1>Find a room, partition,<br>or flat — <em>without the guesswork.</em></h1>
-    <p class="sub">Browse real listings, message owners directly, and settle in faster. No agents, no runaround.</p>
+    <div class="eyebrow" data-i18n="hero_eyebrow">Built for Kuwait's expat community</div>
+    <h1><span data-i18n="hero_h1_1">Find a room, partition,</span><br><span data-i18n="hero_h1_2">or flat — </span><em data-i18n="hero_h1_em">a key you can trust.</em></h1>
+    <p class="sub" data-i18n="hero_sub">Browse real listings, message owners directly, and settle in faster. No agents, no runaround.</p>
 
     <div class="search-card">
       <div class="search-field">
-        <label>Area</label>
-        <select><option>Any area in Kuwait</option><option>Salmiya</option><option>Hawally</option><option>Farwaniya</option><option>Jleeb Al-Shuyoukh</option><option>Fahaheel</option><option>Mahboula</option><option>Khaitan</option></select>
+        <label data-i18n="hero_area_label">Area</label>
+        <select><option data-i18n="hero_area_any">Any area in Kuwait</option><option>Salmiya</option><option>Hawally</option><option>Farwaniya</option><option>Jleeb Al-Shuyoukh</option><option>Fahaheel</option><option>Mahboula</option><option>Khaitan</option></select>
       </div>
       <div class="search-field">
-        <label>Type</label>
-        <select><option>Any type</option><option>Partition</option><option>Studio</option><option>1BR Apartment</option><option>2BR+ Apartment</option><option>Shared Room</option></select>
+        <label data-i18n="hero_type_label">Type</label>
+        <select><option data-i18n="hero_type_any">Any type</option><option>Partition</option><option>Studio</option><option>1BR Apartment</option><option>2BR+ Apartment</option><option>Shared Room</option></select>
       </div>
       <div class="search-field">
-        <label>Max budget (KD)</label>
+        <label data-i18n="hero_budget_label">Max budget (KD)</label>
         <input type="text" placeholder="e.g. 120">
       </div>
-      <button class="search-btn" onclick="document.getElementById('browse').scrollIntoView({behavior:'smooth'})">Search</button>
+      <button class="search-btn" onclick="document.getElementById('browse').scrollIntoView({behavior:'smooth'})" data-i18n="hero_search">Search</button>
     </div>
 
     <div class="hero-stats">
-      <div><div class="num" id="statListingCount">—</div><div class="lbl">Active listings</div></div>
-      <div><div class="num" id="statAreaCount">—</div><div class="lbl">Areas covered</div></div>
-      <div><div class="num">0 KD</div><div class="lbl">To browse & chat</div></div>
+      <div><div class="num" id="statListingCount">—</div><div class="lbl" data-i18n="hero_stat_listings">Active listings</div></div>
+      <div><div class="num" id="statAreaCount">—</div><div class="lbl" data-i18n="hero_stat_areas">Areas covered</div></div>
+      <div><div class="num">0 KD</div><div class="lbl" data-i18n="hero_stat_free">To browse & chat</div></div>
     </div>
   </div>
 </header>
@@ -341,25 +343,25 @@
   <div class="wrap">
     <div class="section-head">
       <div>
-        <h2>Available now</h2>
-        <p>Tap any listing to see photos, details, and message the owner.</p>
+        <h2 data-i18n="browse_h2">Available now</h2>
+        <p data-i18n="browse_sub">Tap any listing to see photos, details, and message the owner.</p>
       </div>
     </div>
     <div class="filter-bar" id="typeFilterBar">
-      <button class="chip active" data-type="All" onclick="window.setTypeFilter('All', this)">All</button>
-      <button class="chip" data-type="Partition" onclick="window.setTypeFilter('Partition', this)">Partitions</button>
-      <button class="chip" data-type="Studio" onclick="window.setTypeFilter('Studio', this)">Studios</button>
-      <button class="chip" data-type="1BR Apartment" onclick="window.setTypeFilter('1BR Apartment', this)">1BR</button>
-      <button class="chip" data-type="2BR+ Apartment" onclick="window.setTypeFilter('2BR+ Apartment', this)">2BR+</button>
-      <button class="chip" data-forwho="Family" onclick="window.setForWhoFilter('Family', this)">Family only</button>
-      <button class="chip" data-forwho="Bachelors" onclick="window.setForWhoFilter('Bachelors', this)">Bachelors only</button>
+      <button class="chip active" data-type="All" data-i18n="filter_all" onclick="window.setTypeFilter('All', this)">All</button>
+      <button class="chip" data-type="Partition" data-i18n="filter_partitions" onclick="window.setTypeFilter('Partition', this)">Partitions</button>
+      <button class="chip" data-type="Studio" data-i18n="filter_studios" onclick="window.setTypeFilter('Studio', this)">Studios</button>
+      <button class="chip" data-type="1BR Apartment" data-i18n="filter_1br" onclick="window.setTypeFilter('1BR Apartment', this)">1BR</button>
+      <button class="chip" data-type="2BR+ Apartment" data-i18n="filter_2br" onclick="window.setTypeFilter('2BR+ Apartment', this)">2BR+</button>
+      <button class="chip" data-forwho="Family" data-i18n="filter_family" onclick="window.setForWhoFilter('Family', this)">Family only</button>
+      <button class="chip" data-forwho="Bachelors" data-i18n="filter_bachelors" onclick="window.setForWhoFilter('Bachelors', this)">Bachelors only</button>
     </div>
     <div class="filter-bar" id="amenityFilterBar" style="margin-top:-8px;">
-      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Halal food nearby', this)">🍽️ Halal food nearby</button>
-      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Prayer room in building', this)">🕌 Prayer room</button>
-      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Public transport nearby', this)">🚌 Near transport</button>
-      <button class="chip" data-amenity onclick="window.toggleChipFilter('amenity', 'Furnished', this)">🛋️ Furnished</button>
-      <button class="chip" data-lease onclick="window.toggleChipFilter('lease', 'Monthly', this)">📅 Monthly lease</button>
+      <button class="chip" data-amenity data-i18n="filter_halal" onclick="window.toggleChipFilter('amenity', 'Halal food nearby', this)">🍽️ Halal food nearby</button>
+      <button class="chip" data-amenity data-i18n="filter_prayer" onclick="window.toggleChipFilter('amenity', 'Prayer room in building', this)">🕌 Prayer room</button>
+      <button class="chip" data-amenity data-i18n="filter_transport" onclick="window.toggleChipFilter('amenity', 'Public transport nearby', this)">🚌 Near transport</button>
+      <button class="chip" data-amenity data-i18n="filter_furnished" onclick="window.toggleChipFilter('amenity', 'Furnished', this)">🛋️ Furnished</button>
+      <button class="chip" data-lease data-i18n="filter_monthly" onclick="window.toggleChipFilter('lease', 'Monthly', this)">📅 Monthly lease</button>
     </div>
     <div class="grid" id="listingGrid"></div>
   </div>
@@ -369,25 +371,25 @@
   <div class="wrap">
     <div class="section-head">
       <div>
-        <h2>How Sakan works</h2>
-        <p>Three steps, no middlemen fees for seekers.</p>
+        <h2 data-i18n="how_h2">How Sakan works</h2>
+        <p data-i18n="how_sub">Three steps, no middlemen fees for seekers.</p>
       </div>
     </div>
     <div class="how-grid">
       <div class="how-card">
-        <div class="how-num">01 / SEARCH</div>
-        <h3>Filter by area & budget</h3>
-        <p>Narrow down partitions, studios, or flats by location, price, and who they're suited for.</p>
+        <div class="how-num" data-i18n="how1_num">01 / SEARCH</div>
+        <h3 data-i18n="how1_h3">Filter by area & budget</h3>
+        <p data-i18n="how1_p">Narrow down partitions, studios, or flats by location, price, and who they're suited for.</p>
       </div>
       <div class="how-card">
-        <div class="how-num">02 / CHAT</div>
-        <h3>Message the owner directly</h3>
-        <p>No calls to strangers. Chat in-app first, share contact details only when you're ready.</p>
+        <div class="how-num" data-i18n="how2_num">02 / CHAT</div>
+        <h3 data-i18n="how2_h3">Message the owner directly</h3>
+        <p data-i18n="how2_p">No calls to strangers. Chat in-app first, share contact details only when you're ready.</p>
       </div>
       <div class="how-card">
-        <div class="how-num">03 / MOVE IN</div>
-        <h3>Confirm and settle in</h3>
-        <p>Agree on terms directly with the owner. Sakan just gets you talking faster.</p>
+        <div class="how-num" data-i18n="how3_num">03 / MOVE IN</div>
+        <h3 data-i18n="how3_h3">Confirm and settle in</h3>
+        <p data-i18n="how3_p">Agree on terms directly with the owner. Sakan just gets you talking faster.</p>
       </div>
     </div>
   </div>
@@ -397,21 +399,21 @@
   <div class="wrap">
     <div class="owner-box">
       <div class="left">
-        <h2>Have a place to rent out?</h2>
-        <p>Post your first listing free. From your second on, it's 2 KD per post via WAMD or Pay Link. Every listing is quickly ID-verified before it goes live, so seekers can trust what they see.</p>
-        <p style="margin-top:8px; font-size:13px; color:rgba(251,248,242,0.55);">🛡️ You'll be asked for a Civil ID photo when posting — it's kept private and only used to confirm you're a real owner.</p>
+        <h2 data-i18n="owner_h2">Have a place to rent out?</h2>
+        <p data-i18n="owner_p">Post your first listing free. From your second on, it's 2 KD per post via WAMD or Pay Link. Every listing is quickly ID-verified before it goes live, so seekers can trust what they see.</p>
+        <p style="margin-top:8px; font-size:13px; color:rgba(251,248,242,0.55);" data-i18n="owner_note">🛡️ You'll be asked for a Civil ID photo when posting — it's kept private and only used to confirm you're a real owner.</p>
         <div class="price-tiers">
-          <div class="tier"><div class="t-name">First listing</div><div class="t-price">Free</div><div class="t-desc">Published instantly</div></div>
-          <div class="tier"><div class="t-name">Each listing after</div><div class="t-price">2 KD</div><div class="t-desc">Pay via WAMD/Pay Link, then approved</div></div>
+          <div class="tier"><div class="t-name" data-i18n="owner_tier1_name">First listing</div><div class="t-price" data-i18n="owner_tier1_price">Free</div><div class="t-desc" data-i18n="owner_tier1_desc">Published instantly</div></div>
+          <div class="tier"><div class="t-name" data-i18n="owner_tier2_name">Each listing after</div><div class="t-price" data-i18n="owner_tier2_price">2 KD</div><div class="t-desc" data-i18n="owner_tier2_desc">Pay via WAMD/Pay Link, then approved</div></div>
         </div>
       </div>
-      <button class="btn btn-primary" id="postListingCtaBtn" style="position:relative; z-index:2; white-space:nowrap;" onclick="window.openPostModal()">Post a listing →</button>
+      <button class="btn btn-primary" id="postListingCtaBtn" style="position:relative; z-index:2; white-space:nowrap;" onclick="window.openPostModal()" data-i18n="owner_cta_btn">Post a listing →</button>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">Sakan · Built for Kuwait's expat community</div>
+  <div class="wrap" data-i18n="footer_text">Sakan · Built for Kuwait's expat community</div>
 </footer>
 
 <!-- LISTING DETAIL MODAL -->
@@ -425,7 +427,7 @@
           <div class="price" id="modalPrice"></div>
           <h2 id="modalTitle"></h2>
         </div>
-        <button class="btn btn-primary" onclick="window.openChat()">💬 Chat with owner</button>
+        <button class="btn btn-primary" onclick="window.openChat()" data-i18n="chat_with_owner">💬 Chat with owner</button>
       </div>
       <div class="modal-meta" id="modalMeta"></div>
       <p class="modal-desc" id="modalDesc"></p>
@@ -434,14 +436,14 @@
           <div class="owner-avatar" id="modalOwnerInitial"></div>
           <div>
             <div style="font-weight:600;" id="modalOwnerName"></div>
-            <div style="font-size:12.5px; color:rgba(18,35,46,0.55);">Usually replies within a few hours</div>
+            <div style="font-size:12.5px; color:rgba(18,35,46,0.55);" data-i18n="replies_within">Usually replies within a few hours</div>
           </div>
         </div>
-        <button class="btn btn-dark" onclick="window.openChat()">Message owner</button>
+        <button class="btn btn-dark" onclick="window.openChat()" data-i18n="msg_owner">Message owner</button>
       </div>
       <div style="background:var(--sand); border-radius:10px; padding:14px 16px; margin-top:16px; font-size:13px; color:rgba(18,35,46,0.7); line-height:1.6;">
-        🛡️ <strong>Stay safe:</strong> view the property in person before paying any deposit, and confirm the owner's ID matches the property's documents. Never send money to someone you haven't met or verified.
-        <br><a id="reportListingLink" href="#" style="color:var(--coral); font-weight:600; text-decoration:underline;">Report this listing</a>
+        <span data-i18n="safety_note">🛡️ Stay safe: view the property in person before paying any deposit, and confirm the owner's ID matches the property's documents. Never send money to someone you haven't met or verified.</span>
+        <br><a id="reportListingLink" href="#" style="color:var(--coral); font-weight:600; text-decoration:underline;" data-i18n="report_listing">Report this listing</a>
       </div>
     </div>
   </div>
@@ -464,8 +466,8 @@
     <div class="chat-body" id="chatBody"></div>
     <div id="quickReplyRow" style="display:none; gap:6px; padding:8px 12px 0; flex-wrap:wrap;"></div>
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Type a message...">
-      <button onclick="window.sendChat()">Send</button>
+      <input type="text" id="chatInput" placeholder="Type a message..." data-i18n-ph="chat_placeholder">
+      <button onclick="window.sendChat()" data-i18n="send">Send</button>
     </div>
   </div>
 </div>
@@ -475,55 +477,55 @@
   <div class="modal" style="max-width:640px;">
     <div class="modal-close" onclick="window.closeModal('postModal')">✕</div>
     <div class="modal-body" style="padding-top:34px;">
-      <h2 style="margin-bottom:4px;" id="postModalTitle">Post your listing</h2>
-      <p style="color:rgba(18,35,46,0.6); font-size:14.5px; margin-bottom:26px;" id="postModalSub">Your first listing is free. From your second listing on, publishing costs 2 KD, paid via WAMD/Pay Link and approved once confirmed.</p>
+      <h2 style="margin-bottom:4px;" id="postModalTitle" data-i18n="post_title_new">Post your listing</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:14.5px; margin-bottom:26px;" id="postModalSub" data-i18n="post_sub_new">Your first listing is free. From your second on, publishing costs 2 KD via WAMD/Pay Link. Every listing — including your first — is quickly verified before it goes live to keep Sakan scam-free.</p>
       <div class="form-grid">
-        <div class="form-field"><label>Title</label><input type="text" id="f-title" placeholder="e.g. Partition for bachelors, Salmiya"></div>
-        <div class="form-field"><label>Area</label><input type="text" id="f-area" placeholder="e.g. Salmiya"></div>
-        <div class="form-field"><label>Type</label>
+        <div class="form-field"><label data-i18n="f_title">Title</label><input type="text" id="f-title" placeholder="e.g. Partition for bachelors, Salmiya" data-i18n-ph="f_title_ph"></div>
+        <div class="form-field"><label data-i18n="f_area">Area</label><input type="text" id="f-area" placeholder="e.g. Salmiya" data-i18n-ph="f_area_ph"></div>
+        <div class="form-field"><label data-i18n="f_type">Type</label>
           <select id="f-type"><option>Partition</option><option>Studio</option><option>1BR Apartment</option><option>2BR+ Apartment</option><option>Shared Room</option></select>
         </div>
-        <div class="form-field"><label>Monthly rent (KD)</label><input type="text" id="f-price" placeholder="e.g. 65"></div>
-        <div class="form-field"><label>Suited for</label>
+        <div class="form-field"><label data-i18n="f_price">Monthly rent (KD)</label><input type="text" id="f-price" placeholder="e.g. 65" data-i18n-ph="f_price_ph"></div>
+        <div class="form-field"><label data-i18n="f_forwho">Suited for</label>
           <select id="f-forwho"><option>Bachelors</option><option>Family</option><option>Either</option></select>
         </div>
-        <div class="form-field"><label>Your phone or WhatsApp</label><input type="text" id="f-phone" placeholder="Only shared after you approve chat"></div>
-        <div class="form-field"><label>Lease length</label>
+        <div class="form-field"><label data-i18n="f_phone">Your phone or WhatsApp</label><input type="text" id="f-phone" placeholder="Only shared after you approve chat" data-i18n-ph="f_phone_ph"></div>
+        <div class="form-field"><label data-i18n="f_lease">Lease length</label>
           <select id="f-lease"><option>Flexible</option><option>Monthly</option><option>Short-term (1-6 months)</option><option>Long-term (6+ months)</option></select>
         </div>
         <div class="form-field full">
-          <label>Languages you speak (helps expats know they can communicate easily)</label>
+          <label data-i18n="f_lang">Languages you speak (helps expats know they can communicate easily)</label>
           <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:4px;">
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Arabic"> Arabic</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="English"> English</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Hindi"> Hindi</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Urdu"> Urdu</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Tagalog"> Tagalog</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Malayalam"> Malayalam</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Bengali"> Bengali</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Arabic"> <span data-i18n="lang_arabic">Arabic</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="English"> <span data-i18n="lang_english">English</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Hindi"> <span data-i18n="lang_hindi">Hindi</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Urdu"> <span data-i18n="lang_urdu">Urdu</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Tagalog"> <span data-i18n="lang_tagalog">Tagalog</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Malayalam"> <span data-i18n="lang_malayalam">Malayalam</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-lang" value="Bengali"> <span data-i18n="lang_bengali">Bengali</span></label>
           </div>
         </div>
         <div class="form-field full">
-          <label>Nearby / building amenities</label>
+          <label data-i18n="f_amenities">Nearby / building amenities</label>
           <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:4px;">
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Halal food nearby"> Halal food nearby</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Prayer room in building"> Prayer room in building</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Public transport nearby"> Public transport nearby</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Family-friendly building"> Family-friendly building</label>
-            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Furnished"> Furnished</label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Halal food nearby"> <span data-i18n="filter_halal_plain">Halal food nearby</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Prayer room in building"> <span data-i18n="amenity_prayer">Prayer room in building</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Public transport nearby"> <span data-i18n="amenity_transport">Public transport nearby</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Family-friendly building"> <span data-i18n="amenity_family">Family-friendly building</span></label>
+            <label style="display:flex; align-items:center; gap:5px; font-weight:500; font-size:13.5px;"><input type="checkbox" class="f-amenity" value="Furnished"> <span data-i18n="filter_furnished_plain">Furnished</span></label>
           </div>
         </div>
-        <div class="form-field full"><label>Description</label><textarea rows="4" id="f-desc" placeholder="AC, furnishing, distance to metro/bus, included bills, etc."></textarea></div>
-        <div class="form-field full"><label>Photo of the property</label><input type="file" id="f-photo" accept="image/*"></div>
-        <div class="form-field"><label>Civil ID full name (as it appears on your ID)</label><input type="text" id="f-idname" placeholder="e.g. Ahmad Yousef Al-Sabah"></div>
-        <div class="form-field"><label>Civil ID number (12 digits)</label><input type="text" id="f-idnumber" inputmode="numeric" maxlength="14" placeholder="e.g. 289011212345"></div>
+        <div class="form-field full"><label data-i18n="f_desc">Description</label><textarea rows="4" id="f-desc" placeholder="AC, furnishing, distance to metro/bus, included bills, etc." data-i18n-ph="f_desc_ph"></textarea></div>
+        <div class="form-field full"><label data-i18n="f_photo">Photo of the property</label><input type="file" id="f-photo" accept="image/*"></div>
+        <div class="form-field"><label data-i18n="f_idname">Civil ID full name (as it appears on your ID)</label><input type="text" id="f-idname" placeholder="e.g. Ahmad Yousef Al-Sabah" data-i18n-ph="f_idname_ph"></div>
+        <div class="form-field"><label data-i18n="f_idnumber">Civil ID number (12 digits)</label><input type="text" id="f-idnumber" inputmode="numeric" maxlength="14" placeholder="e.g. 289011212345"></div>
         <div class="form-field full">
-          <label>Civil ID photo (required — kept private, reviewed only by Sakan Customer Care)</label>
+          <label data-i18n="f_idphoto">Civil ID photo (required — kept private, reviewed only by Sakan Customer Care)</label>
           <input type="file" id="f-idphoto" accept="image/*">
         </div>
       </div>
 
-      <button class="btn btn-primary" id="submitListingBtn" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitListing()">Publish listing</button>
+      <button class="btn btn-primary" id="submitListingBtn" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitListing()" data-i18n="submit_publish">Publish listing</button>
     </div>
   </div>
 </div>
@@ -535,41 +537,41 @@
     <div class="modal-body" style="padding-top:34px;">
 
       <div id="authFormStep">
-        <h2 style="margin-bottom:18px;">Sign in to Sakan</h2>
+        <h2 style="margin-bottom:18px;" data-i18n="auth_title">Sign in to Sakan</h2>
         <div class="form-field">
-          <label>I want to</label>
+          <label data-i18n="auth_mode_label">I want to</label>
           <select id="authMode" onchange="window.toggleAuthRoleField()">
-            <option value="login">Sign in</option>
-            <option value="signup">Create an account</option>
+            <option value="login" data-i18n="auth_mode_login">Sign in</option>
+            <option value="signup" data-i18n="auth_mode_signup">Create an account</option>
           </select>
         </div>
-        <div class="form-field"><label>Name (for new accounts)</label><input type="text" id="authName" placeholder="Your name"></div>
-        <div class="form-field" id="authRoleField"><label>I'm signing up as a</label>
+        <div class="form-field"><label data-i18n="auth_name_label">Name (for new accounts)</label><input type="text" id="authName" placeholder="Your name"></div>
+        <div class="form-field" id="authRoleField"><label data-i18n="auth_role_label">I'm signing up as a</label>
           <select id="authRole">
-            <option value="seeker">Room seeker (browsing/looking for a place)</option>
-            <option value="owner">House owner (listing a place to rent)</option>
+            <option value="seeker" data-i18n="auth_role_seeker">Room seeker (browsing/looking for a place)</option>
+            <option value="owner" data-i18n="auth_role_owner">House owner (listing a place to rent)</option>
           </select>
         </div>
-        <div class="form-field"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"></div>
-        <div class="form-field"><label>Password</label><input type="password" id="authPassword" placeholder="••••••••"></div>
-        <p style="margin:-6px 0 14px;"><a href="#" onclick="window.forgotPassword(); return false;" style="font-size:12.5px; color:var(--teal-deep); font-weight:600; text-decoration:underline;">Forgot your password?</a></p>
+        <div class="form-field"><label data-i18n="auth_email_label">Email</label><input type="email" id="authEmail" placeholder="you@example.com"></div>
+        <div class="form-field"><label data-i18n="auth_password_label">Password</label><input type="password" id="authPassword" placeholder="••••••••"></div>
+        <p style="margin:-6px 0 14px;"><a href="#" onclick="window.forgotPassword(); return false;" style="font-size:12.5px; color:var(--teal-deep); font-weight:600; text-decoration:underline;" data-i18n="auth_forgot">Forgot your password?</a></p>
         <p id="authError" style="color:var(--coral); font-size:13px; margin-bottom:12px;"></p>
-        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitAuth()">Continue</button>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitAuth()" data-i18n="auth_continue">Continue</button>
       </div>
 
       <div id="authVerifyStep" style="display:none;">
-        <h2 style="margin-bottom:8px;">Verify your email</h2>
+        <h2 style="margin-bottom:8px;" data-i18n="verify_title">Verify your email</h2>
         <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:20px;">
           We sent a 6-digit code to <strong id="verifyEmailDisplay"></strong>. Enter it below to finish creating your account.
         </p>
         <div class="form-field">
-          <label>Verification code</label>
+          <label data-i18n="verify_code_label">Verification code</label>
           <input type="text" id="authCode" inputmode="numeric" maxlength="6" placeholder="123456" style="font-size:20px; letter-spacing:0.3em; text-align:center;">
         </div>
         <p id="verifyError" style="color:var(--coral); font-size:13px; margin-bottom:12px;"></p>
-        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitVerificationCode()">Verify & create account</button>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;" onclick="window.submitVerificationCode()" data-i18n="verify_btn">Verify & create account</button>
         <p style="text-align:center; margin-top:14px; font-size:13px;">
-          Didn't get it? <a href="#" onclick="window.resendVerificationCode(); return false;" style="color:var(--teal-deep); font-weight:600; text-decoration:underline;">Resend code</a>
+          <span data-i18n="verify_resend_q">Didn't get it?</span> <a href="#" onclick="window.resendVerificationCode(); return false;" style="color:var(--teal-deep); font-weight:600; text-decoration:underline;" data-i18n="verify_resend">Resend code</a>
         </p>
       </div>
 
@@ -582,14 +584,14 @@
   <div class="modal" style="max-width:560px;">
     <div class="modal-close" onclick="window.closeModal('myListingsModal')">✕</div>
     <div class="modal-body" style="padding-top:34px;">
-      <h2 style="margin-bottom:18px;">My listings</h2>
+      <h2 style="margin-bottom:18px;" data-i18n="mylistings_title">My listings</h2>
       <div id="myListingsBody"></div>
       <div style="background:var(--sand); border-radius:12px; padding:16px 18px; margin-top:24px;">
-        <div style="font-weight:700; font-size:14px; margin-bottom:4px;">🎁 Invite friends to Sakan</div>
+        <div style="font-weight:700; font-size:14px; margin-bottom:4px;" data-i18n="invite_friends">🎁 Invite friends to Sakan</div>
         <div style="font-size:13px; color:rgba(18,35,46,0.65); margin-bottom:10px;" id="referralCountDisplay">Loading…</div>
         <div style="display:flex; gap:8px;">
           <input type="text" id="referralLinkDisplay" readonly style="flex:1; border:1px solid var(--line); border-radius:8px; padding:9px 12px; font-size:12.5px; background:var(--white);">
-          <button class="btn btn-primary" style="padding:9px 14px; font-size:13px;" onclick="window.copyReferralLink()">Copy link</button>
+          <button class="btn btn-primary" style="padding:9px 14px; font-size:13px;" onclick="window.copyReferralLink()" data-i18n="copy_link">Copy link</button>
         </div>
       </div>
     </div>
@@ -644,6 +646,23 @@
   </div>
 </div>
 
+<!-- ABOUT US MODAL -->
+<div class="modal-overlay" id="aboutUsModal">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-close" onclick="window.closeModal('aboutUsModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:6px;">Why I built Sakan</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:13px; margin-bottom:22px;">A note from the founder.</p>
+      <div style="display:flex; flex-direction:column; gap:16px; font-size:14.5px; line-height:1.7; color:rgba(18,35,46,0.85);">
+        <p>I've lived the search for a room in Kuwait as an expat myself — scrolling through Facebook groups full of duplicate posts, chasing people on WhatsApp who never reply, and never being quite sure if the person on the other end of a listing is even real. It's stressful in a way it shouldn't have to be, especially when you've just arrived and everything else already feels unfamiliar.</p>
+        <p>Sakan started because I wanted something better than that for people in the same position I've been in. Not another noisy group chat or classifieds board — a place where every owner is actually verified before they can post, where you can message someone safely before ever sharing your number, and where finding a place doesn't mean gambling on a stranger's word.</p>
+        <p>This is still early days. I'm building and running Sakan myself, checking every listing personally before it goes live, because I'd rather grow slowly with something trustworthy than fast with something that isn't. If you're searching for a place, or have one to offer, I hope Sakan makes that a little easier — and a lot safer.</p>
+        <p style="font-style:italic; color:rgba(18,35,46,0.6);">— The Sakan team</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- CONTACT US MODAL -->
 <div class="modal-overlay" id="contactUsModal">
   <div class="modal" style="max-width:440px;">
@@ -684,7 +703,7 @@
   <div class="modal" style="max-width:400px; max-height:75vh;">
     <div class="modal-close" onclick="window.closeModal('notifModal')">✕</div>
     <div class="modal-body" style="padding-top:34px;">
-      <h2 style="margin-bottom:14px;">Notifications</h2>
+      <h2 style="margin-bottom:14px;" data-i18n="notif_title">Notifications</h2>
       <div id="notifPanel"></div>
     </div>
   </div>
@@ -695,7 +714,7 @@
   <div class="modal" style="max-width:440px; max-height:80vh;">
     <div class="modal-close" onclick="window.closeModal('adminQueueModal')">✕</div>
     <div class="modal-body" style="padding-top:34px;">
-      <h2 style="margin-bottom:14px;">Admin</h2>
+      <h2 style="margin-bottom:14px;" data-i18n="admin_title">Admin</h2>
       <div id="adminStatsBar" style="padding:12px 14px; border-radius:10px; background:var(--sand); font-size:13px; font-weight:700; color:var(--teal-deep); margin-bottom:16px;">Loading stats…</div>
       <div id="adminQueueList"></div>
     </div>
@@ -707,8 +726,8 @@
   <div class="modal" style="max-width:520px;">
     <div class="modal-close" onclick="window.closeModal('manageAccountsModal')">✕</div>
     <div class="modal-body" style="padding-top:34px;">
-      <h2 style="margin-bottom:4px;">Manage accounts</h2>
-      <p style="color:rgba(18,35,46,0.6); font-size:13px; margin-bottom:20px;">Deleting an account removes their profile and all their listings from Sakan. This doesn't delete their login itself — see the README for why.</p>
+      <h2 style="margin-bottom:4px;" data-i18n="manage_accounts_title">Manage accounts</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:13px; margin-bottom:20px;" data-i18n="manage_accounts_sub">Deleting an account removes their profile and all their listings from Sakan. This doesn't delete their login itself — see the README for why.</p>
       <div id="manageAccountsBody"></div>
     </div>
   </div>
@@ -719,21 +738,21 @@
   <div class="modal" style="max-width:440px;">
     <div class="modal-close" onclick="window.closeModal('paymentModal')">✕</div>
     <div class="modal-body" style="padding-top:34px;">
-      <h2 style="margin-bottom:6px;">Pay to publish</h2>
+      <h2 style="margin-bottom:6px;" data-i18n="pay_title">Pay to publish</h2>
       <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:20px;" id="paymentListingTitle"></p>
       <input type="hidden" id="paymentListingId">
       <div style="background:var(--sand); border-radius:12px; padding:20px; margin-bottom:20px;">
         <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-          <span style="font-size:13px; color:rgba(18,35,46,0.6);">Amount</span>
+          <span style="font-size:13px; color:rgba(18,35,46,0.6);" data-i18n="pay_amount">Amount</span>
           <span style="font-weight:700;" id="paymentAmountDisplay"></span>
         </div>
         <div style="display:flex; justify-content:space-between;">
-          <span style="font-size:13px; color:rgba(18,35,46,0.6);">Send via WAMD / Pay Link to</span>
+          <span style="font-size:13px; color:rgba(18,35,46,0.6);" data-i18n="pay_send_via">Send via WAMD / Pay Link to</span>
           <span class="mono" style="font-weight:700;" id="paymentPhoneDisplay"></span>
         </div>
       </div>
-      <p style="font-size:13px; color:rgba(18,35,46,0.6); margin-bottom:20px;">Once you've sent payment, tap the button below. Sakan Customer Care will confirm it and your listing goes live shortly after.</p>
-      <button class="btn btn-primary" id="markPaidBtn" style="width:100%; justify-content:center; padding:14px;" onclick="window.markAsPaid()">I've paid — notify Sakan</button>
+      <p style="font-size:13px; color:rgba(18,35,46,0.6); margin-bottom:20px;" data-i18n="pay_note">Once you've sent payment, tap the button below. Sakan Customer Care will confirm it and your listing goes live shortly after.</p>
+      <button class="btn btn-primary" id="markPaidBtn" style="width:100%; justify-content:center; padding:14px;" onclick="window.markAsPaid()" data-i18n="pay_confirm_btn">I've paid — notify Sakan</button>
     </div>
   </div>
 </div>
