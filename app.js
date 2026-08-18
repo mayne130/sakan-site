@@ -2,6 +2,7 @@ import { firebaseConfig } from './firebase-config.js';
 import { cloudinaryConfig } from './cloudinary-config.js';
 import { ADMIN_EMAILS, PAYMENT_PHONE, POST_FEE_KD, FREE_LISTINGS_PER_OWNER } from './admin-config.js';
 import { emailjsConfig } from './emailjs-config.js';
+import { t, applyTranslations, getLang } from './i18n.js';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth, onAuthStateChanged, signInWithEmailAndPassword,
@@ -101,14 +102,14 @@ function renderAuthUI() {
       <span id="notifBell" style="position:relative; cursor:pointer;" onclick="window.toggleNotifications()">
         <button class="btn btn-ghost">🔔<span id="notifBadge" style="display:none;"></span></button>
       </span>
-      ${isAdmin() ? `<span id="adminBell" style="position:relative; cursor:pointer;" onclick="window.toggleAdminPanel()"><button class="btn btn-dark">🛠 Admin<span id="adminBadge" style="display:none;"></span></button></span>` : ''}
-      ${isAdmin() ? `<button class="btn btn-ghost" onclick="window.openManageAccounts()">👥 Accounts</button>` : ''}
-      <button class="btn btn-ghost" onclick="window.openMyListings()">My listings</button>
-      <button class="btn btn-ghost" onclick="window.doSignOut()">Sign out</button>`;
+      ${isAdmin() ? `<span id="adminBell" style="position:relative; cursor:pointer;" onclick="window.toggleAdminPanel()"><button class="btn btn-dark">🛠 ${t('nav_admin')}<span id="adminBadge" style="display:none;"></span></button></span>` : ''}
+      ${isAdmin() ? `<button class="btn btn-ghost" onclick="window.openManageAccounts()">👥 ${t('nav_accounts')}</button>` : ''}
+      <button class="btn btn-ghost" onclick="window.openMyListings()">${t('nav_mylistings')}</button>
+      <button class="btn btn-ghost" onclick="window.doSignOut()">${t('nav_signout')}</button>`;
     watchNotifications();
     if (isAdmin()) watchAdminQueue();
   } else {
-    slot.innerHTML = `<button class="btn btn-ghost" onclick="window.openAuthModal()">Sign in</button>`;
+    slot.innerHTML = `<button class="btn btn-ghost" onclick="window.openAuthModal()">${t('nav_signin')}</button>`;
     if (unsubNotifications) unsubNotifications();
     if (unsubAdminQueue) unsubAdminQueue();
   }
@@ -398,9 +399,28 @@ window.toggleChipFilter = (key, value, btn) => {
   applyListingFilters();
 };
 
+// Translates fixed data values (listing type, "suited for", lease length,
+// language names) for display, while the underlying stored value in
+// Firestore stays a consistent English string — so filtering logic never
+// breaks, but the person sees it in their chosen language.
+const enumMap = {
+  'Partition': 'type_partition', 'Studio': 'type_studio', '1BR Apartment': 'type_1br',
+  '2BR+ Apartment': 'type_2br', 'Shared Room': 'type_shared',
+  'Bachelors': 'forwho_bachelors', 'Family': 'forwho_family', 'Either': 'forwho_either',
+  'Monthly': 'lease_monthly', 'Flexible': 'lease_flexible',
+  'Short-term (1-6 months)': 'lease_short', 'Long-term (6+ months)': 'lease_long',
+  'Arabic': 'lang_arabic', 'English': 'lang_english', 'Hindi': 'lang_hindi', 'Urdu': 'lang_urdu',
+  'Tagalog': 'lang_tagalog', 'Malayalam': 'lang_malayalam', 'Bengali': 'lang_bengali'
+};
+function translateEnum(value) {
+  if (getLang() === 'en' || !value) return value;
+  const key = enumMap[value];
+  return key ? t(key) : value;
+}
+
 function fastResponderBadge(l) {
   if (l.ownerAvgResponseMinutes != null && l.ownerAvgResponseMinutes <= 60) {
-    return '<span class="featured-badge" style="right:auto; left:12px; background:rgba(27,107,115,0.9);">⚡ Fast responder</span>';
+    return `<span class="featured-badge" style="right:auto; left:12px; background:rgba(27,107,115,0.9);">${t('fast_responder')}</span>`;
   }
   return '';
 }
@@ -408,14 +428,14 @@ function fastResponderBadge(l) {
 function renderListings(listings) {
   const grid = document.getElementById('listingGrid');
   if (!listings.length) {
-    grid.innerHTML = `<p style="grid-column:1/-1; color:rgba(18,35,46,0.55);">No listings match those filters yet — try clearing one.</p>`;
+    grid.innerHTML = `<p style="grid-column:1/-1; color:rgba(18,35,46,0.55);">${t('no_listings_match')}</p>`;
     return;
   }
   grid.innerHTML = listings.map(l => `
     <div class="card" onclick="window.openListing('${l.id}')">
       <div class="card-img" style="background:${l.color || '#1B6B73'}; ${l.photoUrl ? `background-image:url('${esc(l.photoUrl)}'); background-size:cover; background-position:center;` : ''}">
-        <span class="keytag">${esc(l.type)}</span>
-        ${l.ownerVerified ? '<span class="featured-badge">✅ Verified owner</span>' : fastResponderBadge(l)}
+        <span class="keytag">${esc(translateEnum(l.type))}</span>
+        ${l.ownerVerified ? `<span class="featured-badge">${t('verified_owner')}</span>` : fastResponderBadge(l)}
         ${l.photoUrl ? '' : 'Photo'}
       </div>
       <div class="card-body">
@@ -423,10 +443,10 @@ function renderListings(listings) {
         <h3>${esc(l.title)}</h3>
         <div class="card-meta">
           <span>📍 ${esc(l.area)}</span>
-          <span>👤 ${esc(l.forWho)}</span>
-          ${l.leaseLength ? `<span>📅 ${esc(l.leaseLength)}</span>` : ''}
+          <span>👤 ${esc(translateEnum(l.forWho))}</span>
+          ${l.leaseLength ? `<span>📅 ${esc(translateEnum(l.leaseLength))}</span>` : ''}
         </div>
-        ${(l.languages && l.languages.length) ? `<div style="margin-top:8px; font-size:11.5px; color:rgba(18,35,46,0.5);">🗣️ ${l.languages.map(esc).join(', ')}</div>` : ''}
+        ${(l.languages && l.languages.length) ? `<div style="margin-top:8px; font-size:11.5px; color:rgba(18,35,46,0.5);">🗣️ ${l.languages.map(v => esc(translateEnum(v))).join(', ')}</div>` : ''}
       </div>
     </div>
   `).join('');
@@ -646,13 +666,13 @@ window.openMyListings = async () => {
           ${statusPill(l.status)}
         </div>
         <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-          <button class="btn btn-ghost" style="padding:7px 12px; font-size:13px;" onclick="window.editListing('${l.id}')">Edit / re-photo</button>
-          ${l.status === 'pending_payment' ? `<button class="btn btn-primary" style="padding:7px 12px; font-size:13px;" onclick="window.openPaymentModal('${l.id}')">Pay ${l.feeKD || POST_FEE_KD} KD to publish</button>` : ''}
-          ${l.status === 'rejected' ? `<button class="btn btn-primary" style="padding:7px 12px; font-size:13px;" onclick="window.openPaymentModal('${l.id}')">Resubmit payment</button>` : ''}
-          ${l.status === 'active' ? `<button class="btn btn-ghost" style="padding:7px 12px; font-size:13px;" onclick="window.deactivateListing('${l.id}')">Deactivate</button>` : ''}
+          <button class="btn btn-ghost" style="padding:7px 12px; font-size:13px;" onclick="window.editListing('${l.id}')">${t('edit_rephoto')}</button>
+          ${l.status === 'pending_payment' ? `<button class="btn btn-primary" style="padding:7px 12px; font-size:13px;" onclick="window.openPaymentModal('${l.id}')">${t('pay_to_publish', { fee: l.feeKD || POST_FEE_KD })}</button>` : ''}
+          ${l.status === 'rejected' ? `<button class="btn btn-primary" style="padding:7px 12px; font-size:13px;" onclick="window.openPaymentModal('${l.id}')">${t('resubmit_payment')}</button>` : ''}
+          ${l.status === 'active' ? `<button class="btn btn-ghost" style="padding:7px 12px; font-size:13px;" onclick="window.deactivateListing('${l.id}')">${t('deactivate')}</button>` : ''}
         </div>
       </div>
-    `).join('') : '<p style="color:rgba(18,35,46,0.55);">You haven\'t posted any listings yet.</p>';
+    `).join('') : `<p style="color:rgba(18,35,46,0.55);">${t('no_listings_yet')}</p>`;
   });
   document.getElementById('myListingsModal').classList.add('open');
   refreshReferralDisplay();
@@ -674,10 +694,10 @@ async function refreshReferralDisplay() {
     linkInput.value = link;
     const count = data.referralCount || 0;
     countDisplay.textContent = count > 0
-      ? `${count} friend${count === 1 ? '' : 's'} joined using your link so far!`
-      : 'Share your link — friends who sign up through it count toward your invites.';
+      ? t('referral_joined', { count })
+      : t('referral_share');
   } catch (e) {
-    countDisplay.textContent = 'Referral info unavailable right now.';
+    countDisplay.textContent = t('referral_unavailable');
   }
 }
 
@@ -693,14 +713,14 @@ window.copyReferralLink = () => {
 
 function statusPill(status) {
   const map = {
-    active: ['Live', 'var(--teal)'],
-    pending_payment: ['Payment needed', 'var(--coral)'],
-    pending_approval: ['Awaiting approval', 'var(--gold)'],
-    rejected: ['Not approved', 'var(--coral)'],
-    inactive: ['Deactivated', 'rgba(18,35,46,0.4)']
+    active: ['status_live', 'var(--teal)'],
+    pending_payment: ['status_payment_needed', 'var(--coral)'],
+    pending_approval: ['status_awaiting', 'var(--gold)'],
+    rejected: ['status_rejected', 'var(--coral)'],
+    inactive: ['status_deactivated', 'rgba(18,35,46,0.4)']
   };
-  const [label, color] = map[status] || ['—', 'rgba(18,35,46,0.4)'];
-  return `<span style="background:${color}; color:white; font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap;">${label}</span>`;
+  const [labelKey, color] = map[status] || [null, 'rgba(18,35,46,0.4)'];
+  return `<span style="background:${color}; color:white; font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap;">${labelKey ? t(labelKey) : '—'}</span>`;
 }
 
 window.deactivateListing = async (id) => {
@@ -820,7 +840,7 @@ function subscribeToMessages(chatId) {
       if (m.type === 'phone_reveal') {
         const div = document.createElement('div');
         div.style.cssText = 'align-self:center; background:var(--gold-soft); border-radius:10px; padding:10px 16px; font-size:13px; font-weight:600; text-align:center; margin:6px 0;';
-        div.textContent = `📞 Owner shared their number: ${m.text}`;
+        div.textContent = `📞 ${t('phone_shared')}: ${m.text}`;
         body.appendChild(div);
         return;
       }
@@ -845,7 +865,7 @@ function subscribeToMessages(chatId) {
           if (otherRead && otherRead.toMillis && otherRead.toMillis() >= lastMineTime.toMillis()) {
             const seenEl = document.createElement('div');
             seenEl.className = 'seen-indicator';
-            seenEl.textContent = 'Seen';
+            seenEl.textContent = t('seen');
             lastMineDiv.insertAdjacentElement('afterend', seenEl);
             body.scrollTop = body.scrollHeight;
           }
@@ -937,17 +957,17 @@ async function openChatFromLink(chatId) {
 }
 
 function renderChatHeader(isOwner, listing) {
-  document.getElementById('chatHeadName').textContent = isOwner ? 'Seeker' : (listing.ownerName || 'Owner');
+  document.getElementById('chatHeadName').textContent = isOwner ? t('seeker_label') : (listing.ownerName || 'Owner');
   const revealSlot = document.getElementById('chatRevealSlot');
   if (isOwner) {
-    revealSlot.innerHTML = `<button class="btn btn-primary" style="padding:8px 14px; font-size:13px;" onclick="window.revealPhone()">Share my number</button>`;
+    revealSlot.innerHTML = `<button class="btn btn-primary" style="padding:8px 14px; font-size:13px;" onclick="window.revealPhone()">${t('share_number')}</button>`;
   } else {
     revealSlot.innerHTML = '';
   }
 
   const quickRow = document.getElementById('quickReplyRow');
   if (isOwner) {
-    const replies = ['Yes, still available ✅', 'Sorry, already rented ❌', 'Bachelors welcome', "What's your move-in date?"];
+    const replies = [t('quick_available'), t('quick_rented'), t('quick_bachelors'), t('quick_movein')];
     quickRow.style.display = 'flex';
     quickRow.innerHTML = replies.map(r => `<button class="quick-reply-chip" onclick="window.sendQuickReply('${r.replace(/'/g, "\\'")}')">${esc(r)}</button>`).join('');
   } else {
@@ -1082,10 +1102,10 @@ function renderNotificationPanel(items) {
   if (!panel) return;
   panel.innerHTML = items.length ? items.map(n => `
     <div onclick="window.openNotification('${n.id}','${n.chatId}')" style="padding:12px 16px; border-bottom:1px solid var(--line); cursor:pointer; ${n.read ? '' : 'background:rgba(212,160,23,0.08);'}">
-      <div style="font-size:13.5px; font-weight:600;">${esc(n.fromName)} wants to chat</div>
+      <div style="font-size:13.5px; font-weight:600;">${esc(n.fromName)} ${t('wants_to_chat')}</div>
       <div style="font-size:12.5px; color:rgba(18,35,46,0.6); margin-top:2px;">${esc(n.listingTitle)}</div>
     </div>
-  `).join('') : `<div style="padding:16px; font-size:13px; color:rgba(18,35,46,0.55);">No new notifications.</div>`;
+  `).join('') : `<div style="padding:16px; font-size:13px; color:rgba(18,35,46,0.55);">${t('no_new_notifications')}</div>`;
 }
 
 window.toggleNotifications = () => {
@@ -1228,6 +1248,7 @@ window.deleteUserAccount = async (uid, label) => {
 };
 window.openMoveInChecklist = () => document.getElementById('moveInChecklistModal').classList.add('open');
 window.openPrivacyPolicy = () => document.getElementById('privacyModal').classList.add('open');
+window.openAboutUs = () => document.getElementById('aboutUsModal').classList.add('open');
 window.openContactUs = () => document.getElementById('contactUsModal').classList.add('open');
 
 window.toggleAdminPanel = () => {
@@ -1262,4 +1283,17 @@ window.rejectPost = async (notifId, listingId) => {
 };
 
 /* ---------------- INIT ---------------- */
+applyTranslations();
+window.addEventListener('sakan-lang-changed', () => {
+  applyListingFilters();       // re-render listing cards in the new language
+  renderAuthUI();               // re-render nav buttons (My listings, Sign out, etc.)
+  const notifModal = document.getElementById('notifModal');
+  if (notifModal && notifModal.classList.contains('open')) watchNotifications();
+  const openChat = document.getElementById('chatModal');
+  if (openChat && openChat.classList.contains('open') && currentChatListing) {
+    // Re-render quick replies / reveal button in the new language for an open chat
+    const isOwnerView = currentUser && currentChatListing.ownerId === currentUser.uid;
+    renderChatHeader(isOwnerView, currentChatListing);
+  }
+});
 watchListings();
