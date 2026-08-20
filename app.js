@@ -590,6 +590,14 @@ window.submitListing = async () => {
     await submitForAdminReview(newDoc.id, title, 0, 'Free first listing — WhatsApp verification pending', phone);
     alert('Your first listing is free! We\'ll confirm your WhatsApp number shortly, then it goes live.');
   } else {
+    // Early heads-up: let Sakan know someone STARTED a paid listing,
+    // even before they've actually paid — separate from the "I've paid"
+    // email that fires later once they claim payment.
+    sendEmailAlert(
+      ADMIN_EMAILS[0],
+      'Owner started a paid listing — Sakan',
+      `${currentUser.displayName || 'An owner'} just posted "${title}" as a paid listing (${POST_FEE_KD} KD) and is now seeing payment instructions. They haven't paid yet — this is just an early heads-up. Phone: ${phone || 'not provided'}.`
+    );
     // Send them straight to the payment instructions for this listing
     window.openPaymentModal(newDoc.id);
   }
