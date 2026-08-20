@@ -7,7 +7,14 @@
 <meta name="description" content="Find a room, partition, or flat in Kuwait — a key you can trust. Every owner on Sakan is phone-verified before their listing goes live, built for Kuwait's expat community.">
 <link rel="icon" type="image/svg+xml" href="assets/sakan-icon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/sakan-favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/sakan-icon-192.png">
 <link rel="apple-touch-icon" href="assets/sakan-favicon-512.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12232E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sakan">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sakan — Find Your Room in Kuwait">
 <meta property="og:description" content="Find a room, partition, or flat in Kuwait — a key you can trust. Every owner is phone-verified before posting.">
@@ -304,6 +311,7 @@
     </div>
     <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; row-gap:8px; max-width:560px;" id="authSlot-wrap">
       <button class="btn btn-ghost" id="langToggleBtn" onclick="window.toggleLanguage()">العربية</button>
+      <button class="btn btn-ghost" id="installAppBtn" onclick="window.installApp()" style="display:none;" data-i18n="download_app">📲 Download App</button>
       <span id="authSlot" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; row-gap:8px;"><button class="btn btn-ghost" onclick="window.openAuthModal()" data-i18n="nav_signin">Sign in</button></span>
       <button class="btn btn-primary" id="postListingNavBtn" onclick="window.openPostModal()" data-i18n="nav_post">+ Post a listing</button>
     </div>
@@ -654,6 +662,23 @@
         <p>This is still early days. I'm building and running Sakan myself, checking every listing personally before it goes live, because I'd rather grow slowly with something trustworthy than fast with something that isn't. If you're searching for a place, or have one to offer, I hope Sakan makes that a little easier — and a lot safer.</p>
         <p style="font-style:italic; color:rgba(18,35,46,0.6);">— The Sakan team</p>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- IOS INSTALL INSTRUCTIONS MODAL -->
+<div class="modal-overlay" id="iosInstallModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-close" onclick="window.closeModal('iosInstallModal')">✕</div>
+    <div class="modal-body" style="padding-top:34px;">
+      <h2 style="margin-bottom:6px;">Add Sakan to your Home Screen</h2>
+      <p style="color:rgba(18,35,46,0.6); font-size:14px; margin-bottom:22px;">iPhone doesn't allow one-tap installs, but this takes 10 seconds:</p>
+      <div style="display:flex; flex-direction:column; gap:14px; font-size:14.5px; line-height:1.6;">
+        <div><strong>1.</strong> Tap the Share icon at the bottom of Safari (the square with an arrow pointing up)</div>
+        <div><strong>2.</strong> Scroll down and tap "Add to Home Screen"</div>
+        <div><strong>3.</strong> Tap "Add" in the top-right corner</div>
+      </div>
+      <p style="margin-top:18px; font-size:13px; color:rgba(18,35,46,0.55);">Sakan will then open full-screen from your Home Screen, just like a regular app.</p>
     </div>
   </div>
 </div>
