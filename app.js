@@ -504,34 +504,6 @@ window.selectTier = (el) => {
   el.classList.add('selected');
 };
 
-/* ---------------- KUWAIT CIVIL ID VALIDATION ---------------- */
-
-// Validates the 12-digit Kuwait Civil ID number using its documented
-// structure (digit 1 = century, digits 2-7 = birth date YYMMDD) and its
-// Modulus-11 checksum on digit 12, computed from coefficients [2,1,6,3,7,9,10,5,8,4,2].
-function validateKuwaitCivilId(raw) {
-  const id = (raw || '').replace(/\D/g, '');
-  if (id.length !== 12) {
-    return { valid: false, reason: 'Civil ID number must be exactly 12 digits.' };
-  }
-  if (!['1', '2', '3'].includes(id[0])) {
-    return { valid: false, reason: "That doesn't look like a valid Civil ID (unexpected first digit)." };
-  }
-  const month = parseInt(id.substring(3, 5), 10);
-  const day = parseInt(id.substring(5, 7), 10);
-  if (month < 1 || month > 12 || day < 1 || day > 31) {
-    return { valid: false, reason: "That doesn't look like a valid Civil ID (birth-date digits are invalid)." };
-  }
-  const coeff = [2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-  let sum = 0;
-  for (let i = 0; i < 11; i++) sum += parseInt(id[i], 10) * coeff[i];
-  const checkDigit = (11 - (sum % 11)) % 11;
-  if (checkDigit === 10 || checkDigit !== parseInt(id[11], 10)) {
-    return { valid: false, reason: "That Civil ID number doesn't pass validation — please double check it." };
-  }
-  return { valid: true, cleanId: id };
-}
-
 window.submitListing = async () => {
   if (!requireAuth()) return;
   const title = document.getElementById('f-title').value.trim();
@@ -545,35 +517,14 @@ window.submitListing = async () => {
   const amenities = Array.from(document.querySelectorAll('.f-amenity:checked')).map(el => el.value);
   const description = document.getElementById('f-desc').value.trim();
   const photoFile = document.getElementById('f-photo').files[0];
-  const idFile = document.getElementById('f-idphoto').files[0];
-  const idName = document.getElementById('f-idname').value.trim();
-  const idNumberRaw = document.getElementById('f-idnumber').value.trim();
 
   if (!title || !area || !price) {
     alert('Please fill in at least title, area, and price.');
     return;
   }
-  if (!editingListingId && !idFile) {
-    alert('Please upload a photo of your Civil ID — every listing is verified before it goes live to keep Sakan scam-free.');
+  if (!editingListingId && !phone) {
+    alert('Please add your phone/WhatsApp number — this is how we confirm you\'re a real owner before your listing goes live.');
     return;
-  }
-  if (!editingListingId && !idName) {
-    alert('Please enter the full name exactly as it appears on your Civil ID.');
-    return;
-  }
-  if (!editingListingId && !idNumberRaw) {
-    alert('Please enter your 12-digit Civil ID number.');
-    return;
-  }
-
-  let idNumber = null;
-  if (idNumberRaw) {
-    const check = validateKuwaitCivilId(idNumberRaw);
-    if (!check.valid) {
-      alert(check.reason);
-      return;
-    }
-    idNumber = check.cleanId;
   }
 
   const submitBtn = document.getElementById('submitListingBtn');
@@ -581,12 +532,10 @@ window.submitListing = async () => {
   submitBtn.textContent = 'Uploading…';
 
   let photoUrl = editingListingId ? undefined : null; // undefined = "don't touch" on edit unless a new file is chosen
-  let idPhotoUrl = null;
   try {
     if (photoFile) photoUrl = await uploadFile(photoFile);
-    if (idFile) idPhotoUrl = await uploadFile(idFile);
   } catch (e) {
-    alert("One of the uploads didn't go through. Please check your connection and try again.");
+    alert("The photo upload didn't go through. Please check your connection and try again.");
     submitBtn.disabled = false;
     submitBtn.textContent = 'Publish listing';
     return;
@@ -599,9 +548,6 @@ window.submitListing = async () => {
     // ---- EDIT MODE: update fields, never touches status or payment ----
     const updates = { title, area, type, price, forWho, phone, description, leaseLength, languages, amenities };
     if (photoUrl !== undefined) updates.photoUrl = photoUrl;
-    if (idPhotoUrl) updates.idPhotoUrl = idPhotoUrl;
-    if (idName) updates.idName = idName;
-    if (idNumber) updates.idNumber = idNumber;
     await updateDoc(doc(db, 'listings', editingListingId), updates);
     document.getElementById('postModal').classList.remove('open');
     editingListingId = null;
@@ -629,7 +575,6 @@ window.submitListing = async () => {
     title, area, type, price, forWho, phone, description, color,
     leaseLength, languages, amenities,
     photoUrl: photoUrl || null,
-    idPhotoUrl, idName, idNumber,
     ownerId: currentUser.uid,
     ownerName: currentUser.displayName || 'Owner',
     ownerVerified: ownerAlreadyVerified,
@@ -642,8 +587,8 @@ window.submitListing = async () => {
   document.getElementById('postModal').classList.remove('open');
 
   if (isFree) {
-    await submitForAdminReview(newDoc.id, title, 0, 'Free first listing — ID verification only', idPhotoUrl, idName, idNumber);
-    alert('Your first listing is free! It\'s now waiting for a quick verification check before it goes live.');
+    await submitForAdminReview(newDoc.id, title, 0, 'Free first listing — WhatsApp verification pending', phone);
+    alert('Your first listing is free! We\'ll confirm your WhatsApp number shortly, then it goes live.');
   } else {
     // Send them straight to the payment instructions for this listing
     window.openPaymentModal(newDoc.id);
@@ -743,11 +688,8 @@ window.editListing = async (id) => {
   document.querySelectorAll('.f-amenity').forEach(el => { el.checked = (l.amenities || []).includes(el.value); });
   document.getElementById('f-desc').value = l.description || '';
   document.getElementById('f-photo').value = '';
-  document.getElementById('f-idphoto').value = '';
-  document.getElementById('f-idname').value = l.idName || '';
-  document.getElementById('f-idnumber').value = l.idNumber || '';
   document.getElementById('postModalTitle').textContent = 'Edit your listing';
-  document.getElementById('postModalSub').textContent = 'Leave the photo/ID fields empty to keep what you already submitted, or choose new files to replace them.';
+  document.getElementById('postModalSub').textContent = 'Leave the photo field empty to keep what you already submitted, or choose a new file to replace it.';
   document.getElementById('submitListingBtn').textContent = 'Save changes';
   document.getElementById('myListingsModal').classList.remove('open');
   document.getElementById('postModal').classList.add('open');
@@ -755,7 +697,7 @@ window.editListing = async (id) => {
 
 /* ---------------- ADMIN REVIEW QUEUE (shared by free + paid listings) ---------------- */
 
-async function submitForAdminReview(listingId, listingTitle, amount, method, idPhotoUrl, idName, idNumber) {
+async function submitForAdminReview(listingId, listingTitle, amount, method, phone) {
   await addDoc(collection(db, 'adminNotifications'), {
     listingId,
     listingTitle,
@@ -763,16 +705,14 @@ async function submitForAdminReview(listingId, listingTitle, amount, method, idP
     ownerName: currentUser.displayName || 'Owner',
     amount,
     method,
-    idPhotoUrl: idPhotoUrl || null,
-    idName: idName || null,
-    idNumber: idNumber || null,
+    phone: phone || null,
     resolved: false,
     createdAt: serverTimestamp()
   });
   sendEmailAlert(
     ADMIN_EMAILS[0],
     'New listing awaiting review — Sakan',
-    `${currentUser.displayName || 'An owner'} submitted "${listingTitle}" for review (${method}). Open the Admin panel on the site to check their ID and approve or reject.`
+    `${currentUser.displayName || 'An owner'} submitted "${listingTitle}" for review (${method}). Open the Admin panel on the site to confirm their WhatsApp number and approve or reject.`
   );
 }
 
@@ -804,10 +744,7 @@ window.markAsPaid = async () => {
   const listingData = listingSnap.exists() ? listingSnap.data() : {};
 
   await updateDoc(doc(db, 'listings', listingId), { status: 'pending_approval' });
-  await submitForAdminReview(
-    listingId, listingTitle, POST_FEE_KD, 'WAMD / Pay Link',
-    listingData.idPhotoUrl, listingData.idName, listingData.idNumber
-  );
+  await submitForAdminReview(listingId, listingTitle, POST_FEE_KD, 'WAMD / Pay Link', listingData.phone);
 
   btn.disabled = false;
   btn.textContent = "I've paid — notify Sakan";
@@ -1065,11 +1002,8 @@ window.openPostModal = async () => {
   document.querySelectorAll('.f-lang, .f-amenity').forEach(el => { el.checked = false; });
   document.getElementById('f-desc').value = '';
   document.getElementById('f-photo').value = '';
-  document.getElementById('f-idphoto').value = '';
-  document.getElementById('f-idname').value = '';
-  document.getElementById('f-idnumber').value = '';
   document.getElementById('postModalTitle').textContent = 'Post your listing';
-  document.getElementById('postModalSub').textContent = 'Your first listing is free. From your second on, publishing costs ' + POST_FEE_KD + ' KD via WAMD/Pay Link. Every listing — including your first — is quickly verified before it goes live to keep Sakan scam-free.';
+  document.getElementById('postModalSub').textContent = 'Your first listing is free. From your second on, publishing costs ' + POST_FEE_KD + ' KD via WAMD/Pay Link. We\'ll confirm your WhatsApp number before any listing — including your first — goes live, to keep Sakan scam-free.';
   document.getElementById('submitListingBtn').textContent = 'Publish listing';
   document.getElementById('postModal').classList.add('open');
 };
@@ -1154,19 +1088,19 @@ function renderAdminPanel(items) {
   const list = document.getElementById('adminQueueList');
   if (!list) return;
   list.innerHTML = items.length ? items.map(n => {
-    const nameMismatch = n.idName && n.ownerName &&
-      n.idName.trim().toLowerCase() !== n.ownerName.trim().toLowerCase();
+    const waDigits = n.phone ? n.phone.replace(/[^\d]/g, '') : '';
+    const waNumber = waDigits ? (waDigits.startsWith('965') ? waDigits : '965' + waDigits) : null;
+    const waLink = waNumber ? `https://wa.me/${waNumber}` : null;
     return `
     <div style="padding:14px 16px; border-bottom:1px solid var(--line);">
       <div style="font-size:13.5px; font-weight:600;">${esc(n.ownerName)}</div>
       <div style="font-size:12.5px; color:rgba(18,35,46,0.65); margin-top:2px;">${esc(n.listingTitle)}</div>
       <div style="font-size:12px; color:rgba(18,35,46,0.5); margin-top:2px;">${n.amount > 0 ? `Claims payment of ${n.amount} KD via ${esc(n.method)}` : esc(n.method)}</div>
       <div style="background:var(--sand); border-radius:8px; padding:8px 10px; margin-top:8px; font-size:12px;">
-        <div><strong>Civil ID name:</strong> ${n.idName ? esc(n.idName) : '<span style="color:var(--coral);">not provided</span>'} ${nameMismatch ? '<span style="color:var(--coral); font-weight:700;"> ⚠ doesn\'t match account name</span>' : ''}</div>
-        <div style="margin-top:2px;"><strong>Civil ID number:</strong> ${n.idNumber ? `${esc(n.idNumber.slice(0,4))} •••• ${esc(n.idNumber.slice(-2))}` : '<span style="color:var(--coral);">not provided</span>'} <span style="color:var(--teal);">(checksum verified)</span></div>
+        <strong>Phone:</strong> ${n.phone ? esc(n.phone) : '<span style="color:var(--coral);">not provided</span>'}
       </div>
       <div style="display:flex; gap:8px; margin-top:8px;">
-        ${n.idPhotoUrl ? `<a href="${esc(n.idPhotoUrl)}" target="_blank" style="font-size:12px; color:var(--teal-deep); font-weight:600; text-decoration:underline;">View Civil ID photo</a>` : '<span style="font-size:12px; color:var(--coral);">No ID photo uploaded</span>'}
+        ${waLink ? `<a href="${waLink}" target="_blank" style="font-size:12px; color:var(--teal-deep); font-weight:600; text-decoration:underline;">Message on WhatsApp to confirm →</a>` : '<span style="font-size:12px; color:var(--coral);">No phone number to verify</span>'}
       </div>
       <div style="display:flex; gap:8px; margin-top:10px;">
         <button class="btn btn-primary" style="padding:6px 12px; font-size:12.5px;" onclick="window.approvePost('${n.id}','${n.listingId}','${n.ownerId}')">Approve post</button>
@@ -1259,6 +1193,9 @@ window.toggleAdminPanel = () => {
 };
 
 window.approvePost = async (notifId, listingId, ownerId) => {
+  const listingSnap = await getDoc(doc(db, 'listings', listingId));
+  const listingData = listingSnap.exists() ? listingSnap.data() : {};
+
   await updateDoc(doc(db, 'listings', listingId), { status: 'active', ownerVerified: true });
   await updateDoc(doc(db, 'adminNotifications', notifId), { resolved: true, resolution: 'approved' });
 
@@ -1275,7 +1212,30 @@ window.approvePost = async (notifId, listingId, ownerId) => {
       }
     });
   }
+
+  notifySeekersOfNewListing(listingId, listingData).catch(() => {});
 };
+
+// Emails every registered seeker when a new listing goes live.
+// NOTE: EmailJS's free tier caps at 200 emails/month total — this sends
+// one email per seeker account per approved listing, so keep an eye on
+// usage in the EmailJS dashboard as your seeker base grows. Worth
+// revisiting (batching, a daily digest instead, or a paid EmailJS tier)
+// once Sakan has a larger user base.
+async function notifySeekersOfNewListing(listingId, listingData) {
+  const seekersQ = query(collection(db, 'users'), where('role', '==', 'seeker'));
+  const seekersSnap = await getDocs(seekersQ);
+  const listingLink = `${window.location.origin}${window.location.pathname}?listing=${encodeURIComponent(listingId)}`;
+  seekersSnap.forEach(docSnap => {
+    const seeker = docSnap.data();
+    if (!seeker.email) return;
+    sendEmailAlert(
+      seeker.email,
+      `New listing on Sakan: ${listingData.title || 'a new place'}`,
+      `A new listing just went live on Sakan — "${listingData.title || ''}" in ${listingData.area || ''}, ${listingData.price || '?'} KD/month. View it here: ${listingLink}`
+    );
+  });
+}
 
 window.rejectPost = async (notifId, listingId) => {
   await updateDoc(doc(db, 'listings', listingId), { status: 'rejected' });
@@ -1297,3 +1257,9 @@ window.addEventListener('sakan-lang-changed', () => {
   }
 });
 watchListings();
+
+// If this page was opened from a "new listing" email link like
+// ?listing=<id>, open that listing's detail view directly. Listings
+// are public, so this doesn't need to wait for sign-in.
+const deepLinkListingId = new URLSearchParams(window.location.search).get('listing');
+if (deepLinkListingId) window.openListing(deepLinkListingId);
