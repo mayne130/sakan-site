@@ -25,6 +25,7 @@ export const translations = {
     nav_admin: "Admin",
     nav_accounts: "Accounts",
     nav_post: "+ Post a listing",
+    download_app: "📲 Download App",
 
     // Hero
     hero_eyebrow: "Built for Kuwait's expat community",
@@ -220,6 +221,7 @@ export const translations = {
     nav_admin: "الإدارة",
     nav_accounts: "الحسابات",
     nav_post: "+ أضف إعلانًا",
+    download_app: "📲 تحميل التطبيق",
 
     hero_eyebrow: "مصمم لمجتمع المقيمين في الكويت",
     hero_h1_1: "ابحث عن غرفة أو بارتيشن",
