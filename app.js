@@ -1251,6 +1251,64 @@ window.rejectPost = async (notifId, listingId) => {
 };
 
 /* ---------------- INIT ---------------- */
+
+// "Download App" button: Chrome/Android/Edge support a real one-tap
+// install prompt via this event. iOS Safari doesn't support this API
+// at all (Apple restriction), so we detect iOS separately and show
+// manual "Add to Home Screen" instructions instead.
+let deferredInstallPrompt = null;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandaloneAlready = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+if (!isStandaloneAlready) {
+  if (isIOS) {
+    // iOS never fires beforeinstallprompt — show the button right away,
+    // it'll open manual instructions when tapped.
+    const btn = document.getElementById('installAppBtn');
+    if (btn) btn.style.display = '';
+  } else {
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      const btn = document.getElementById('installAppBtn');
+      if (btn) btn.style.display = '';
+    });
+  }
+}
+
+window.installApp = async () => {
+  if (isIOS) {
+    document.getElementById('iosInstallModal').classList.add('open');
+    return;
+  }
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  if (outcome === 'accepted') {
+    const btn = document.getElementById('installAppBtn');
+    if (btn) btn.style.display = 'none';
+  }
+  deferredInstallPrompt = null;
+};
+
+window.addEventListener('appinstalled', () => {
+  const btn = document.getElementById('installAppBtn');
+  if (btn) btn.style.display = 'none';
+});
+
+
+// Registers the service worker (needed for installability as an app,
+// and for basic offline resilience). Silently does nothing on browsers
+// that don't support it — never blocks the rest of the app from loading.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(() => {
+      // Non-critical — the site works fine without it, just without
+      // offline caching / install-prompt eligibility.
+    });
+  });
+}
+
 applyTranslations();
 window.addEventListener('sakan-lang-changed', () => {
   applyListingFilters();       // re-render listing cards in the new language
