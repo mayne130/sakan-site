@@ -77,7 +77,7 @@ export const translations = {
 
     // Owner CTA
     owner_h2: "Have a place to rent out?",
-    owner_p: "Post your first listing free. From your second on, it's 2 KD per post via WAMD or Pay Link. Every listing is quickly ID-verified before it goes live, so seekers can trust what they see.",
+    owner_p: "Post your first listing free. From your second on, it's 2 KD per post via WAMD or Pay Link. Every listing is quickly phone-verified before it goes live, so seekers can trust what they see.",
     owner_note: "📱 Before your listing goes live, we'll confirm your WhatsApp number is real and reachable — quick and simple, no documents needed.",
     owner_tier1_name: "First listing",
     owner_tier1_price: "Free",
@@ -188,8 +188,6 @@ export const translations = {
     no_pending: "No pending approvals.",
     approve: "Approve post",
     dont_publish: "Don't publish",
-    view_id_photo: "View Civil ID photo",
-    no_id_uploaded: "No ID photo uploaded",
     manage_accounts_title: "Manage accounts",
     manage_accounts_sub: "Deleting an account removes their profile and all their listings from Sakan. This doesn't delete their login itself.",
     delete: "Delete",
@@ -269,7 +267,7 @@ export const translations = {
     how3_p: "اتفق على الشروط مباشرة مع المالك. سكن يساعدك فقط على التواصل بشكل أسرع.",
 
     owner_h2: "لديك عقار للإيجار؟",
-    owner_p: "انشر إعلانك الأول مجانًا. من الإعلان الثاني، الرسوم 2 دينار كويتي عبر واياك (WAMD) أو رابط الدفع. يتم التحقق من كل إعلان بسرعة قبل نشره حتى يثق به الباحثون.",
+    owner_p: "انشر إعلانك الأول مجانًا. من الإعلان الثاني، الرسوم 2 دينار كويتي عبر واياك (WAMD) أو رابط الدفع. يتم التحقق من رقم هاتف كل مالك بسرعة قبل نشر إعلانه حتى يثق به الباحثون.",
     owner_note: "📱 قبل نشر إعلانك، سنتأكد من أن رقم واتسابك حقيقي ويمكن الوصول إليه — بسيط وسريع، بدون مستندات.",
     owner_tier1_name: "الإعلان الأول",
     owner_tier1_price: "مجاني",
@@ -373,8 +371,6 @@ export const translations = {
     no_pending: "لا توجد طلبات بانتظار الموافقة.",
     approve: "الموافقة على النشر",
     dont_publish: "عدم النشر",
-    view_id_photo: "عرض صورة البطاقة المدنية",
-    no_id_uploaded: "لم يتم رفع صورة الهوية",
     manage_accounts_title: "إدارة الحسابات",
     manage_accounts_sub: "حذف الحساب يزيل ملفه الشخصي وجميع إعلاناته من سكن. هذا لا يحذف حساب الدخول نفسه.",
     delete: "حذف",
